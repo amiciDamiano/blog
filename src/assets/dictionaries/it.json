@@ -1,0 +1,8 @@
+{
+    "search": "Cerca",
+    "pageNotFound": {
+        "title": "Pagina non trovata",
+        "description": "Ooops sembra come tu ti sia perso!",
+        "goHome": "torna alla home"
+    }
+}

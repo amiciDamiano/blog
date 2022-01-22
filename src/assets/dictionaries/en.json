@@ -1,0 +1,8 @@
+{
+    "search": "Search",
+    "pageNotFound": {
+        "title": "Page Not Found",
+        "description": "Ooops look like you have been lose your way!",
+        "goHome": "to homepage"
+    }
+}
