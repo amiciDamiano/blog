@@ -1,0 +1,16 @@
+{
+    // "presets": ["@babel/preset-react"],
+    "plugins": [
+        [
+            "prismjs",
+            {
+                "languages": [
+                    "jsx"
+                ],
+                "plugins": ["line-numbers"],
+                "theme": "okaidia",
+                "css": true
+            }
+        ]
+    ]
+}

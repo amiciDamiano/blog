@@ -1,8 +1,18 @@
 {
     "search": "Cerca",
+    "categories": "Categorie",
     "pageNotFound": {
         "title": "Pagina non trovata",
         "description": "Ooops sembra come tu ti sia perso!",
         "goHome": "torna alla home"
-    }
+    },
+    "python": {
+        "title": "Python",
+        "description": "Python è un linguaggio di programmazione di più 'alto livello' rispetto alla maggior parte degli altri linguaggi, orientato a oggetti, adatto a sviluppare applicazioni distribuite, scripting, computazione numerica e system testing."
+    },
+    "node": {
+        "title": "Node JS",
+        "description": "Node.js è un runtime system open source multipiattaforma orientato agli eventi per l'esecuzione di codice JavaScript, costruita sul motore JavaScript V8 di Google Chrome."
+    },
+    "goToArticles": "Vai agli articoli"
 }

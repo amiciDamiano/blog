@@ -13,7 +13,7 @@ import {
   Menu as MUIMenu,
   Container
 } from '@mui/material';
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { ThemeContext, LanguageContext } from './contexts';
 import Main from './components/Main';
 import AppBar from './components/AppBar';
@@ -22,8 +22,20 @@ import Content from './Content';
 
 function App() {
 
-  const { state: { dark, sidebarOpen }, openSidebar, closeSidebar } = useContext(ThemeContext);
+  const { state: { dark, sidebarOpen }, openSidebar, closeSidebar, setDarkMode } = useContext(ThemeContext);
   const { state: { languageAbbr, menuOpened, languages }, openMenu, closeMenu, onChangeLanguage } = useContext(LanguageContext);
+
+  useEffect(() => {
+    const _dark = localStorage.getItem(process.env.REACT_APP_THEME_PREFERENCE) === 'true';
+    setDarkMode(_dark);
+  }, []);
+
+  useEffect(() => {
+    const _languageAbbr = localStorage.getItem(process.env.REACT_APP_LANGUAGE_PREFERENCE);
+    if(_languageAbbr !== 'null') {
+      onChangeLanguage(_languageAbbr);
+    }
+  }, []);
 
   const theme = useMemo(
     () =>
@@ -44,11 +56,12 @@ function App() {
       }),
     [dark],
   );
+
   return (
     <MaterialProvider theme={theme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
-        <AppBar position="fixed" sx={{ justifyContent: { sm: "center" } }} open={sidebarOpen}>
+        <AppBar position="fixed" sx={{ justifyContent: { sm: "center" } }} open={sidebarOpen || theme.breakpoints.up('xs')}>
           <Toolbar sx={{ zIndex: (theme) => theme.zIndex.drawer + 9999999 }}>
             <IconButton
               color="inherit"

@@ -14,11 +14,12 @@ import AppBar from './AppBar';
 
 const SidebarHeader = ({ dark, toggleDarkMode }) => {
     const { state: { dictionary } } = useContext(LanguageContext);
+    
     return (
         <DrawerHeader>
             <AppBar inDrawer sx={{ right: 'auto', width: 249 }}>
                 <Toolbar>
-                    <ColorModeSwitch value={dark} onChange={toggleDarkMode} />
+                    <ColorModeSwitch checked={dark} onChange={toggleDarkMode} />
                     <TextField
                         key={'search'}
                         color='info'
