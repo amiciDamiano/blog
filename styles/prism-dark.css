@@ -45,7 +45,7 @@ pre[class*="language-"] {
 	overflow: auto;
 	background: #1e1e1e;
 	border-radius: 5px;
-	max-width: 90vw;
+	max-width: 80vw;
 	overflow-x: auto;
 }
 
