@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/main.0e3e8c5e.css","mappings":"AAAA,UAEE,iCAAmC,CADnC,mBAEF","sources":["index.css"],"sourcesContent":[".selected {\n  color: red !important;\n  background-color: rgba() !important;\n}"],"names":[],"sourceRoot":""}
