@@ -1,14 +1,25 @@
 import { useEffect, useState } from 'react';
 import { db } from "../firebase";
-import { onSnapshot, collection } from "firebase/firestore";
+import { onSnapshot, collection, where, query, getDocs } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 
 const storage = getStorage();
-const useCategoryArticles = (category) => {
+
+const useCategoryArticles = (category, navigate) => {
     
     const [ articles, setArticles ] = useState([]);
 
     useEffect(() => {
+        const existRouteQuery = query(
+            collection(db, "categories"), 
+            where("name", "==", category)
+        );
+        const checkRoute = async () => {
+            const docs = await getDocs(existRouteQuery);
+            if(!docs.size) {
+                navigate("/404")
+            }
+        };
         const unsubscribe = onSnapshot(collection(db, "articles"), async snapshot => {
             let result = [];
             for(let doc of snapshot.docs) {
@@ -26,8 +37,9 @@ const useCategoryArticles = (category) => {
             }
             setArticles(result);
         });
+        checkRoute();
         return unsubscribe;
-    }, []);
+    }, [category]);
 
     return { articles };
 };

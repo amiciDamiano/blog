@@ -1,4 +1,4 @@
-import { Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material'
+import { Box, Container, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 import { Link } from 'react-router-dom';
 import React, { useContext } from 'react'
 import { LanguageContext } from '../contexts';
@@ -7,17 +7,14 @@ import Loading from './Loading';
 
 const Categories = () => {
 
-    const { categories } = useCategories();
+    let { categories } = useCategories();
     const { state: { dictionary } } = useContext(LanguageContext);
 
     useTranslatedTitle('categories');
-
-    if (categories.length <= 0) {
-        return <Loading />;
-    }
-
+    
     return (
-        <div align="center">
+        <Box component={Container} sx={{ textAlign: 'center' }}>
+            {categories.length <= 0 && <Loading />}
             {/* <Typography variant='h1'>{dictionary['categories']}</Typography> */}
             <Grid container spacing={2}>
                 {
@@ -50,7 +47,7 @@ const Categories = () => {
                     ))
                 }
             </Grid>
-        </div>
+        </Box>
     );
 }
 

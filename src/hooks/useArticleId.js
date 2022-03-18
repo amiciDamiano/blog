@@ -1,13 +1,20 @@
 import { useEffect, useState } from 'react';
 import { db } from "../firebase";
 import { ref, getStorage, getBlob } from 'firebase/storage';
-import { onSnapshot, collection } from "firebase/firestore";
+import { onSnapshot, collection, doc, getDoc } from "firebase/firestore";
 
 const storage = getStorage();
-const useArticleId = (id) => {
+
+const useArticleId = (id, navigate) => {
     const [article, setArticle] = useState();
 
     useEffect(() => {
+        const checkRoute = async () => {
+            const _doc = await getDoc(doc(db, "articles", id));
+            if(!_doc.exists()) {
+                navigate("/404")
+            }
+        };
         const unsubscribe = onSnapshot(collection(db, 'articles'), async snapshot => {
             let result;
             for(let doc of snapshot.docs) {
@@ -21,6 +28,7 @@ const useArticleId = (id) => {
             }
             setArticle(result);
         });
+        checkRoute();
         return unsubscribe;
     }, []);
     

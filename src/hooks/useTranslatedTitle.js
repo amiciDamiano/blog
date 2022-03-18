@@ -9,7 +9,11 @@ const useTranslatedTitle = (key, prop = null) => {
         if(!prop) {
             document.title = dictionary[key];
         } else {
-            document.title = dictionary[key][prop];
+            if(dictionary && dictionary[key] && dictionary[key][prop]) {
+                document.title = dictionary[key][prop];
+            } else {
+                document.title = dictionary.pageNotFound.title;
+            }
         }
     }, [dictionary, key]);
 }

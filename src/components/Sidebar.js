@@ -2,9 +2,10 @@ import React, { useContext } from 'react'
 import {
     SwipeableDrawer,
     TextField,
-    CssBaseline,
     Paper,
     Toolbar,
+    useTheme,
+    Box
 } from '@mui/material';
 import { LanguageContext, ThemeContext } from '../contexts';
 import { styled } from '@mui/material/styles';
@@ -12,12 +13,12 @@ import ColorModeSwitch from './ColorModeSwitch';
 import Drawer from './Drawer';
 import AppBar from './AppBar';
 
-const SidebarHeader = ({ dark, toggleDarkMode }) => {
+const SidebarHeader = ({ dark, toggleDarkMode, open }) => {
     const { state: { dictionary } } = useContext(LanguageContext);
     
     return (
         <DrawerHeader>
-            <AppBar inDrawer sx={{ right: 'auto', width: 249 }}>
+            <AppBar open={open} inDrawer sx={{ right: 'auto', width: 250 }}>
                 <Toolbar>
                     <ColorModeSwitch checked={dark} onChange={toggleDarkMode} />
                     <TextField
@@ -31,7 +32,7 @@ const SidebarHeader = ({ dark, toggleDarkMode }) => {
                     />
                 </Toolbar>
             </AppBar>
-        </DrawerHeader >
+        </DrawerHeader>
     )
 }
 
@@ -46,9 +47,10 @@ const Sidebar = ({ children }) => {
         openSidebar,
         toggleDarkMode
     } = useContext(ThemeContext);
+    const theme = useTheme();
+
     return (
         <>
-            <CssBaseline />
             <SwipeableDrawer
                 variant="permanent"
                 anchor="left"
@@ -64,10 +66,10 @@ const Sidebar = ({ children }) => {
                         width: 250,
                         boxSizing: 'border-box',
                     },
-                    display: { xs: 'none', sm: 'block' },
+                    display: { xs: 'none', md: 'block' },
                 }}
             >
-                <SidebarHeader dark={dark} toggleDarkMode={toggleDarkMode} />
+                <SidebarHeader open dark={dark} toggleDarkMode={toggleDarkMode} />
                 {children}
             </SwipeableDrawer>
             <Drawer
@@ -76,17 +78,19 @@ const Sidebar = ({ children }) => {
                 sx={{
                     width: 250,
                     flexShrink: 0,
+                    maxHeight: '100vh',
+                    overflowY: 'auto',
                     '& .MuiDrawer-paper': {
                         width: 250,
                         boxSizing: 'border-box',
                     },
-                    zIndex: (theme) => theme.zIndex.drawer + 2,
-                    display: { xs: 'block', sm: 'none' },
+                    zIndex: theme => theme.zIndex.drawer + 2,
+                    display: { xs: 'block', md: 'none' },
                 }}
                 anchor="left"
                 open={sidebarOpen}
             >
-                <SidebarHeader dark={dark} toggleDarkMode={toggleDarkMode} />
+                <SidebarHeader open={sidebarOpen} dark={dark} toggleDarkMode={toggleDarkMode} />
                 {children}
             </Drawer>
         </>
@@ -99,7 +103,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     padding: theme.spacing(1, 0, 0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
+    // flexGrow: 1,
     justifyContent: 'flex-end',
 }));
 
-export default Sidebar
+export default Sidebar;

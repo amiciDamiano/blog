@@ -1,11 +1,23 @@
-import { Backdrop } from '@mui/material'
-import React from 'react'
+import { Close } from '@mui/icons-material'
+import { Backdrop, IconButton } from '@mui/material'
+import React, { useState } from 'react'
 
 const Loading = () => {
-  return (
-    <Backdrop open sx={{ zIndex: 99999999 }}>
-        <img src={require('../assets/images/loader.gif')} />
+
+  const [display, setDisplay] = useState("flex");
+
+  const handleCloseLoading = () => {
+    setDisplay("none");
+  };
+
+  return (<>
+    <Backdrop open sx={{ display, zIndex: 99999999 }}>
+      <IconButton onClick={handleCloseLoading} size="small" sx={{ position: "fixed", top: 20, right: 20 }}>
+        <Close fontSize="small" />
+      </IconButton>
+      <img src={require('../assets/images/loader.gif')} />
     </Backdrop>
+  </>
   )
 }
 

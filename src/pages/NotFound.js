@@ -1,4 +1,12 @@
-import { Box, Button, Card, CardActions, CardContent, CardHeader, CardMedia, Paper, Typography } from '@mui/material';
+import { 
+    Container, 
+    Box, 
+    Button, 
+    Card, 
+    CardActions, 
+    CardContent, 
+    Typography 
+} from '@mui/material';
 import React, { useContext } from 'react'
 import { LanguageContext } from '../contexts';
 import { Link } from 'react-router-dom';
@@ -9,11 +17,10 @@ const NotFound = () => {
 
     return (
         <Box
-            component={Paper}
+            component={Container}
             sx={{
                 alignItems: 'center',
                 justifyContent: 'center',
-                m: 0,
             }}
         >
             <Card>
@@ -26,7 +33,7 @@ const NotFound = () => {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Link to="" style={{ textDecoration: 'none' }}>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
                         <Button size="small">
                             {dictionary.pageNotFound.goHome}
                         </Button>

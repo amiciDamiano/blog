@@ -1,32 +1,30 @@
-import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
+import { Box, Card, Container, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 import React, { useContext } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import Loading from './Loading';
 import { LanguageContext } from '../contexts';
 import { useCategoryArticles, useTranslatedTitle } from '../hooks';
 
 const Category = () => {
     const { category } = useParams();
+    const navigate = useNavigate();
     const { state: { dictionary } } = useContext(LanguageContext);
 
-    const { articles } = useCategoryArticles(category);
+    const { articles } = useCategoryArticles(category, navigate);
 
     useTranslatedTitle(category, 'title');
 
-    if (articles.length <= 0) {
-        return <Loading />;
-    }
-
     return (
-        <Box sx={{ textAlign: 'center' }}>
-            <Typography sx={{ mb: theme => theme.spacing(2) }} variant="h1" >{dictionary[category].title}</Typography>
-            {articles.map(article => (
+        <Box component={Container} sx={{ textAlign: 'center' }}>
+            <Typography sx={{ mb: theme => theme.spacing(2) }} variant="h1" >{dictionary[category]?.title}</Typography>
+            { articles.length <= 0 && <Loading /> }
+            { articles.map(article => (
                 <Card sx={{ textAlign: 'left' }} key={article.title}>
-                    <CardActionArea sx={{ display: 'flex' }} component={Link} to={`${article.id}`}>
+                    <CardActionArea sx={{ display: { xs: 'block', md: 'flex', lg: 'flex' } }} component={Link} to={`${article.id}`}>
                         {article.image && (
                             <CardMedia
                                 component="img"
-                                sx={{ width: 250 }}
+                                sx={{ width: {xs: 250, md: 250, lg: 250} }}
                                 image={article.image}
                                 src='img'
                                 alt={article.title}

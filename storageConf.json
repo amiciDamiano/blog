@@ -1,6 +1,6 @@
 [
     {
-      "origin": ["http://localhost:3000", "https://amicidamiano.github.io/blog"],
+      "origin": ["http://localhost:3000", "http://192.168.178.49:3000", "https://amicidamiano.github.io/blog"],
       "method": ["GET", "PUT", "POST", "DELETE", "OPTIONS"],
       "responseHeader": ["Content-Type"],
       "maxAgeSeconds": 3600

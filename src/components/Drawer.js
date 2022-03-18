@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 const Drawer = styled(Box, {
     shouldForwardProp: (prop) => prop !== 'open',
 })(({ theme, open }) => ({
-    position: 'absolute',
+    position: 'fixed',
     width: 250,
     top: 0,
     bottom: 0,
