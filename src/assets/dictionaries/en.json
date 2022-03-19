@@ -1,6 +1,7 @@
 {
     "search": "Search",
     "categories": "Categories",
+    "articles": "Articles",
     "pageNotFound": {
         "title": "Page Not Found",
         "description": "Ooops look like you have been lose your way!",

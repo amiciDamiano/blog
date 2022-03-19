@@ -5,30 +5,83 @@ import {
     Paper,
     Toolbar,
     useTheme,
-    Box
+    Autocomplete,
+    Typography,
+    CircularProgress,
+    ListItemButton,
+    ListSubheader
 } from '@mui/material';
-import { LanguageContext, ThemeContext } from '../contexts';
+import { ThemeContext } from '../contexts';
 import { styled } from '@mui/material/styles';
 import ColorModeSwitch from './ColorModeSwitch';
 import Drawer from './Drawer';
 import AppBar from './AppBar';
+import { useDictionary, useSearch } from '../hooks';
+import { Link } from 'react-router-dom';
 
-const SidebarHeader = ({ dark, toggleDarkMode, open }) => {
-    const { state: { dictionary } } = useContext(LanguageContext);
-    
+const SidebarHeader = ({ dark, toggleDarkMode, open, closeSidebar }) => {
+    const dictionary = useDictionary();
+    const { loading, searchOpen, setSearchOpen, options, changeHandler, searchString } = useSearch();
     return (
         <DrawerHeader>
             <AppBar open={open} inDrawer sx={{ right: 'auto', width: 250 }}>
                 <Toolbar>
                     <ColorModeSwitch checked={dark} onChange={toggleDarkMode} />
-                    <TextField
-                        key={'search'}
-                        color='info'
-                        label={`${dictionary['search']}...`}
-                        variant="outlined"
-                        type="search"
-                        size="small"
-                        sx={{ mx: 1 }}
+                    <Autocomplete
+                        open={searchOpen}
+                        onOpen={() => setSearchOpen(true)}
+                        onClose={() => setSearchOpen(false)}
+                        fullWidth
+                        inputValue={searchString || ''}
+                        onInputChange={changeHandler}
+                        options={options}
+                        loading={loading}
+                        renderGroup={({ children, group }) => {
+                            return <React.Fragment key={group}>
+                                <ListSubheader>
+                                    {dictionary[group]}
+                                </ListSubheader>
+                                {children}
+                            </React.Fragment>
+                        }}
+                        renderOption={(params, option) => {
+                            return <ListItemButton 
+                                        {...params} 
+                                        key={option.path} 
+                                        component={Link} 
+                                        to={option.path}
+                                        onClick={() => { 
+                                            setSearchOpen(false);
+                                            changeHandler({type: "change", target: {value: ""}});
+                                            closeSidebar();
+                                        }}
+                                    >
+                                {option.title}
+                            </ListItemButton>
+                        }}
+                        groupBy={option => option.category}
+                        getOptionLabel={option => option.category || ''}
+                        filterOptions={(x) => x}
+                        renderInput={params => (
+                            <TextField
+                                {...params}
+                                key={'search'}
+                                color='info'
+                                label={`${dictionary['search']}...`}
+                                variant="outlined"
+                                // type="search"
+                                size="small"
+                                InputProps={{
+                                    ...params.InputProps,
+                                    endAdornment: (
+                                        <React.Fragment>
+                                            {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                        </React.Fragment>
+                                    ),
+                                }}
+                                sx={{ mx: 1 }}
+                            />
+                        )}
                     />
                 </Toolbar>
             </AppBar>
@@ -90,7 +143,7 @@ const Sidebar = ({ children }) => {
                 anchor="left"
                 open={sidebarOpen}
             >
-                <SidebarHeader open={sidebarOpen} dark={dark} toggleDarkMode={toggleDarkMode} />
+                <SidebarHeader open={sidebarOpen} closeSidebar={closeSidebar} dark={dark} toggleDarkMode={toggleDarkMode} />
                 {children}
             </Drawer>
         </>

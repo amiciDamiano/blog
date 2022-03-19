@@ -7,13 +7,13 @@ import {
     CardContent, 
     Typography 
 } from '@mui/material';
-import React, { useContext } from 'react'
-import { LanguageContext } from '../contexts';
+import React from 'react'
 import { Link } from 'react-router-dom';
+import { useDictionary } from '../hooks';
 
 const NotFound = () => {
 
-    const { state: { dictionary } } = useContext(LanguageContext);
+    const dictionary = useDictionary();
 
     return (
         <Box

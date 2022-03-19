@@ -2,3 +2,5 @@ export { default as useCategories } from './useCategories';
 export { default as useTranslatedTitle } from './useTranslatedTitle';
 export { default as useCategoryArticles } from './useCategoryArticles';
 export { default as useArticleId } from './useArticleId';
+export { default as useDictionary } from './useDictionary';
+export { default as useSearch } from './useSearch';

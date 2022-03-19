@@ -1,9 +1,9 @@
-import { useContext, useEffect } from "react";
-import { LanguageContext } from "../contexts";
+import { useEffect } from "react";
+import useDictionary from "./useDictionary";
 
 const useTranslatedTitle = (key, prop = null) => {
 
-    const { state: { dictionary } } = useContext(LanguageContext);
+    const dictionary = useDictionary();
     
     useEffect(() => {
         if(!prop) {

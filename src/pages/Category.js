@@ -1,14 +1,13 @@
 import { Box, Card, Container, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
-import React, { useContext } from 'react';
+import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import Loading from './Loading';
-import { LanguageContext } from '../contexts';
-import { useCategoryArticles, useTranslatedTitle } from '../hooks';
+import { useCategoryArticles, useDictionary, useTranslatedTitle } from '../hooks';
 
 const Category = () => {
     const { category } = useParams();
     const navigate = useNavigate();
-    const { state: { dictionary } } = useContext(LanguageContext);
+    const dictionary = useDictionary();
 
     const { articles } = useCategoryArticles(category, navigate);
 

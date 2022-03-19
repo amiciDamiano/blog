@@ -1,14 +1,13 @@
 import { Box, Container, Card, CardActionArea, CardContent, CardMedia, Grid, Typography } from '@mui/material'
 import { Link } from 'react-router-dom';
-import React, { useContext } from 'react'
-import { LanguageContext } from '../contexts';
-import { useCategories, useTranslatedTitle } from '../hooks';
+import React from 'react'
+import { useCategories, useDictionary, useTranslatedTitle } from '../hooks';
 import Loading from './Loading';
 
 const Categories = () => {
 
     let { categories } = useCategories();
-    const { state: { dictionary } } = useContext(LanguageContext);
+    const dictionary = useDictionary();
 
     useTranslatedTitle('categories');
     

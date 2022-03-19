@@ -1,6 +1,7 @@
 {
     "search": "Cerca",
     "categories": "Categorie",
+    "articles": "Articoli",
     "pageNotFound": {
         "title": "Pagina non trovata",
         "description": "Ooops sembra come tu ti sia perso!",

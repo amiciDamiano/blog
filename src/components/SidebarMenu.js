@@ -9,16 +9,15 @@ import {
     ListItemIcon,
     ListItemText
 } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { LanguageContext } from '../contexts'
-import { useCategories } from '../hooks'
+import { useCategories, useDictionary } from '../hooks'
 
 const SidebarMenu = () => {
 
     const { categories } = useCategories();
     const location = useLocation();
-    const { state: { dictionary } } = useContext(LanguageContext);
+    const dictionary = useDictionary();
     const [categoriesOpen, setCategoriesOpen] = useState(true);
 
     const toggleCategories = () => {
