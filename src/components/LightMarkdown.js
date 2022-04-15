@@ -2,6 +2,7 @@ import Prism from 'prismjs';
 import { ListItem, Typography, Link, Box } from '@mui/material';
 import Markdown from 'markdown-to-jsx';
 import React, { useEffect } from 'react';
+import { PUBLIC_URL } from '../utilities';
 // import "../assets/styles/prism-light.css";
 
 const LightMarkdown = (props) => {
@@ -12,7 +13,7 @@ const LightMarkdown = (props) => {
 
     return (
         <>
-            <style scoped><link rel="stylesheet" href={`${process.env.PUBLIC_URL}/styles/prism-light.css`} /></style>
+            <style scoped><link rel="stylesheet" href={`${PUBLIC_URL}/styles/prism-light.css`} /></style>
             <Markdown
                 options={{
                     wrapper: (props) => <Box {...props} sx={{ px: theme => theme.spacing(4) }} />,

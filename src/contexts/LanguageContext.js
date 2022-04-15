@@ -1,6 +1,7 @@
 import createContext from './createDataContext';
 import it from '../assets/dictionaries/it.json';
 import en from '../assets/dictionaries/en.json';
+import { STORE_LANGUAGE_PREFERENCE } from '../utilities';
 
 const CHANGE_LANGUAGE = 'change_language';
 const OPEN_LANGUAGE_MENU = 'open_language_menu';
@@ -26,7 +27,7 @@ const INITIAL_STATE = {
 const reducer = (state, action) => {
     switch(action.type) {
         case CHANGE_LANGUAGE: {
-            localStorage.setItem(process.env.REACT_APP_LANGUAGE_PREFERENCE, action.payload);
+            localStorage.setItem(STORE_LANGUAGE_PREFERENCE, action.payload);
             return { ...state, menuOpened: false, languageAbbr: action.payload, language: state.languages[action.payload].label, dictionary: state.languages[action.payload].dictionary };
         }
         case OPEN_LANGUAGE_MENU: {

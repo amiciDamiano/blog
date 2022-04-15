@@ -2,6 +2,37 @@
     "search": "Cerca",
     "categories": "Categorie",
     "articles": "Articoli",
+    "noOptions": "Nessun risultato",
+    "login": {
+        "title": "Accedi",
+        "email": "Email",
+        "password": "Password",
+        "submit": "Accedi",
+        "noAccount": "Non hai un account? Registrati",
+        "errors": {
+            "email": "Email obbligatoria",
+            "isNotEmail": "Inserire un indirizzo email valido",
+            "password": "Password obbligatoria"
+        }
+    },
+    "register": {
+        "title": "Registrati",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Password di conferma",
+        "submit": "Registrati",
+        "alreadyRegistered": "Hai già un account? Accedi",
+        "errors": {
+            "email": "Email obbligatoria",
+            "isNotEmail": "Inserire un indirizzo email valido",
+            "password": "Password obbligatoria",
+            "noMatchPassword": "Conferma password deve essere uguale alla password",
+            "confirmPasswordRequired": "Conferma password obbligatoria"
+        }
+    },
+    "profile": {
+        "title": "Profilo"
+    },
     "pageNotFound": {
         "title": "Pagina non trovata",
         "description": "Ooops sembra come tu ti sia perso!",

@@ -11,10 +11,7 @@ import {
   Button,
   MenuItem,
   Menu as MUIMenu,
-  Container,
   useMediaQuery,
-  List,
-  ListItem
 } from '@mui/material';
 import { useContext, useEffect, useMemo } from 'react';
 import { ThemeContext, LanguageContext } from './contexts';
@@ -24,6 +21,7 @@ import { Menu, MenuOpen } from '@mui/icons-material';
 import Content from './Content';
 import SidebarMenu from './components/SidebarMenu';
 import { BrowserRouter } from 'react-router-dom';
+import { STORE_LANGUAGE_PREFERENCE, STORE_THEME_PREFERENCE } from './utilities';
 
 function App() {
 
@@ -31,12 +29,12 @@ function App() {
   const { state: { languageAbbr, menuOpened, languages }, openMenu, closeMenu, onChangeLanguage } = useContext(LanguageContext);
   // useEffect(()=>alert(sidebarOpen), [sidebarOpen]);
   useEffect(() => {
-    const _dark = localStorage.getItem(process.env.REACT_APP_THEME_PREFERENCE) === 'true';
+    const _dark = localStorage.getItem(STORE_THEME_PREFERENCE) === 'true';
     setDarkMode(_dark);
   }, []);
 
   useEffect(() => {
-    const _languageAbbr = localStorage.getItem(process.env.REACT_APP_LANGUAGE_PREFERENCE);
+    const _languageAbbr = localStorage.getItem(STORE_LANGUAGE_PREFERENCE);
     if (_languageAbbr !== 'null') {
       onChangeLanguage(_languageAbbr);
     }
@@ -88,7 +86,7 @@ function App() {
             main: '#ef6c00',
             light: '#f28933',
             dark: '#a74b00'
-          }
+          },
         },
       }),
     [dark],

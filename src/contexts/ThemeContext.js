@@ -1,3 +1,4 @@
+import { STORE_THEME_PREFERENCE } from '../utilities';
 import createContext from './createDataContext';
 
 const OPEN_SIDEBAR = 'open_sidebar';
@@ -13,7 +14,7 @@ const INITIAL_STATE = {
 const reducer = (state, action) => {
     switch(action.type) {
         case TOGGLE_DARK_MODE: {
-            localStorage.setItem(process.env.REACT_APP_THEME_PREFERENCE, !state.dark);
+            localStorage.setItem(STORE_THEME_PREFERENCE, !state.dark);
             return { ...state, dark: !state.dark };
         }
         case SET_DARK_MODE: {

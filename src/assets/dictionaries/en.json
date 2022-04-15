@@ -2,6 +2,37 @@
     "search": "Search",
     "categories": "Categories",
     "articles": "Articles",
+    "noOptions": "No options",
+    "login": {
+        "title": "Login",
+        "email": "Email",
+        "password": "Password",
+        "submit": "Login",
+        "noAccount": "Do not have an account? Sign up",
+        "errors": {
+            "email": "Email required",
+            "isNotEmail": "Insert a valid email address",
+            "password": "Password required"
+        }
+    },
+    "register": {
+        "title": "Sign Up",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm password",
+        "submit": "Sign up",
+        "alreadyRegistered": "Do you have an account? Sign in",
+        "errors": {
+            "email": "Email required",
+            "isNotEmail": "Insert a valid email address",
+            "password": "Password required",
+            "noMatchPassword": "Confirm Password must be equal to password",
+            "confirmPasswordRequired": "Confirm Password required"
+        }
+    },
+    "profile": {
+        "title": "Profile"
+    },
     "pageNotFound": {
         "title": "Page Not Found",
         "description": "Ooops look like you have been lose your way!",

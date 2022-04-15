@@ -394,6 +394,7 @@ module.exports = function (webpackEnv) {
                     name: 'static/media/[name].[hash].[ext]',
                   },
                 },
+                'url-loader'
               ],
               issuer: {
                 and: [/\.(ts|tsx|js|jsx|md|mdx)$/],

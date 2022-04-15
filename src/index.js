@@ -2,18 +2,20 @@ import { CssBaseline } from '@mui/material';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { ThemeProvider, LanguageProvider } from './contexts';
+import { ThemeProvider, LanguageProvider, AuthProvider } from './contexts';
 import reportWebVitals from './reportWebVitals';
 import "./index.css"
 
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
-    <LanguageProvider>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
-    </LanguageProvider>
+    <AuthProvider>
+      <LanguageProvider>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </LanguageProvider>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
