@@ -65,7 +65,7 @@ function App() {
 
   useEffect(() => {
     const _languageAbbr = localStorage.getItem(STORE_LANGUAGE_PREFERENCE);
-    if (_languageAbbr !== 'null') {
+    if (_languageAbbr !== 'null' && _languageAbbr) {
       onChangeLanguage(_languageAbbr);
     }
   }, []);
