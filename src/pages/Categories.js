@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import React from 'react'
 import { useCategories, useDictionary, useTranslatedTitle } from '../hooks';
 import Loading from './Loading';
+import GlassCard from '../components/GlassCard';
 
 const Categories = () => {
 
@@ -19,7 +20,7 @@ const Categories = () => {
                 {
                     categories.map(category => (
                         <Grid key={category.name} item xs={12} md={6} lg={4}>
-                            <Card>
+                            <GlassCard>
                             {/* <Link style={{ textDecoration: 'none', color: 'inherit' }} to={`${category.name}`}> */}
                                 <CardActionArea component={Link} to={`${category.name}`}>
                                     <CardMedia
@@ -41,7 +42,7 @@ const Categories = () => {
                                             <Button size="small">{dictionary['goToArticles']}</Button>
                                         </CardActions> */}
                                 </CardActionArea>
-                            </Card>
+                            </GlassCard>
                         </Grid>
                     ))
                 }

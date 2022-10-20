@@ -1,5 +1,12 @@
 import createContext from './createDataContext';
-import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { 
+    createUserWithEmailAndPassword, 
+    getAuth, 
+    signInWithEmailAndPassword, 
+    signOut, 
+    GoogleAuthProvider, 
+    signInWithPopup 
+} from 'firebase/auth';
 import { STORE_TOKEN, STORE_USER } from '../utilities';
 
 const SET_USER = "set_user";
@@ -21,28 +28,55 @@ const reducer = (state, action) => {
             return state;
         }
     }
-}
+};
 
 const login = dispatch => async ({ email, password }) => {
-    const authentication = getAuth();
-    const { user, _tokenResponse } = await signInWithEmailAndPassword(authentication, email, password);
-    const token = _tokenResponse.refreshToken;
-    dispatch({ type: SET_USER, payload: { user, token } });
-};
-const register = dispatch => async ({ email, password, confirmPassword }) => {
-    if (password === confirmPassword) {
+    try {
         const authentication = getAuth();
-        const { user, _tokenResponse } = await createUserWithEmailAndPassword(authentication, email, password)
-        const token = _tokenResponse.refreshToken;
-        dispatch({ type: SET_USER, payload: { user, token } });
+        await signInWithEmailAndPassword(authentication, email, password);
+    } catch(e) {
+        return e;
     }
 };
+
+const googleLogin = dispatch => async () => {
+    try {
+        const googleProvider = new GoogleAuthProvider();
+        const authentication = getAuth();
+        await signInWithPopup(authentication, googleProvider);
+    } catch(e) {
+        return e;
+    }
+};
+
+const register = dispatch => async ({ email, password, confirmPassword }) => {
+    if (password === confirmPassword) {
+        try {
+            const authentication = getAuth();
+            await createUserWithEmailAndPassword(authentication, email, password)
+        } catch(e) {
+            return e;
+        }
+    }
+};
+
+const logout = dispatch => async navigate => {
+    const authentication = getAuth();
+    signOut(authentication);
+    dispatch({ type: SET_USER, payload: { user: null, token: "" }});
+    navigate("/");
+};
+
+const setUser = dispatch => (user, token) => dispatch({ type: SET_USER, payload: { user, token }});
 
 export const { Context, Provider } = createContext(
     reducer,
     {
         login,
-        register
+        register,
+        setUser,
+        logout,
+        googleLogin
         // ACTIONS
     },
     INITIAL_STATE

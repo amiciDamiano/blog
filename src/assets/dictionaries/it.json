@@ -3,6 +3,10 @@
     "categories": "Categorie",
     "articles": "Articoli",
     "noOptions": "Nessun risultato",
+    "profile": {
+        "myArticles": "I miei articoli",
+        "title": "Profilo"
+    },
     "login": {
         "title": "Accedi",
         "email": "Email",
@@ -10,6 +14,8 @@
         "submit": "Accedi",
         "noAccount": "Non hai un account? Registrati",
         "errors": {
+            "auth/too-many-requests": "Troppe richieste",
+            "auth/wrong-password": "Password errata",
             "email": "Email obbligatoria",
             "isNotEmail": "Inserire un indirizzo email valido",
             "password": "Password obbligatoria"
@@ -29,9 +35,6 @@
             "noMatchPassword": "Conferma password deve essere uguale alla password",
             "confirmPasswordRequired": "Conferma password obbligatoria"
         }
-    },
-    "profile": {
-        "title": "Profilo"
     },
     "pageNotFound": {
         "title": "Pagina non trovata",

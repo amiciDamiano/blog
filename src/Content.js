@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { Categories, Article, NotFound, Category } from './pages';
+import { AuthContext } from './contexts';
+import { Categories, Article, NotFound, Category, Profile } from './pages';
 
 const Content = () => {
+    
+    const { state: { user } } = useContext(AuthContext);
 
     return (
         <Routes>
+            {
+                user && (
+                    <Route path='/profile' element={<Profile />} />
+                )
+            }
             <Route path='*/404' element={<NotFound />} />
             <Route path='/404/*' element={<NotFound />} />
             <Route path='*/404/*' element={<NotFound />} />

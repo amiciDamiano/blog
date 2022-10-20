@@ -2,3 +2,53 @@
   color: red !important;
   background-color: rgba() !important;
 }
+
+/* body {
+  height: 100vh;
+  background-color: #000;
+  overflow: hidden;
+} */
+
+.wave,
+.wave::before,
+.wave::after {
+  content: '';
+  position: fixed;
+  top: 80%;
+  z-index: -1;
+  left: 50%;
+  width: 250vw;
+  height: 250vw;
+  margin-left: -125vw;
+  transform-origin: 50% 50%;
+  background-color: transparent;
+  border-radius: 38% 42%;
+  /* box-shadow: inset 0 0 10vw rgba(214, 107, 58, 1); */
+  /* box-shadow: inset 0 0 200vw rgba(214, 107, 58, 0.8); */
+  /* animation: spin 16s infinite linear; */
+  /* mix-blend-mode: multiply; */
+}
+
+.wave::before {
+  width: 105%;
+  height: 95%;
+  margin-top: -80vw;
+  transform-origin: 48% 52%;
+  border-radius: 42% 48%;
+  box-shadow: inset 0 0 10vw rgba(255,255,0,0.8);
+  animation: spin 16s infinite linear;
+}
+
+.wave::after {
+  width: 102%;
+  height: 98%;
+  margin-top: -70vw;
+  transform-origin: 51% 49%;
+  border-radius: 48% 42%;
+  box-shadow: inset 0 0 10vw rgba(0,255,255,0.8);
+  animation: spin 16s infinite linear;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}

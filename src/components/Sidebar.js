@@ -6,19 +6,17 @@ import {
 } from '@mui/material';
 import { ThemeContext } from '../contexts';
 import { styled } from '@mui/material/styles';
-import ColorModeSwitch from './ColorModeSwitch';
 import Drawer from './Drawer';
 import AppBar from './AppBar';
 import { useDictionary } from '../hooks';
 import Search from './Search';
 
-const SidebarHeader = ({ dark, toggleDarkMode, open, closeSidebar }) => {
+const SidebarHeader = ({ open, closeSidebar }) => {
     const dictionary = useDictionary();
     return (
         <DrawerHeader>
             <AppBar open={open} inDrawer sx={{ right: 'auto', width: 250 }}>
                 <Toolbar>
-                    <ColorModeSwitch checked={dark} onChange={toggleDarkMode} />
                     <Search dictionary={dictionary} closeSidebar={closeSidebar} />
                 </Toolbar>
             </AppBar>
@@ -30,12 +28,10 @@ const Sidebar = ({ children }) => {
 
     const iOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent);
     const { state: {
-        sidebarOpen,
-        dark
+        sidebarOpen
     },
         closeSidebar,
-        openSidebar,
-        toggleDarkMode
+        openSidebar
     } = useContext(ThemeContext);
 
     return (
@@ -52,13 +48,14 @@ const Sidebar = ({ children }) => {
                     width: 250,
                     flexShrink: 0,
                     '& .MuiDrawer-paper': {
+                        backgroundColor: "transparent",
                         width: 250,
                         boxSizing: 'border-box',
                     },
                     display: { xs: 'none', md: 'block' },
                 }}
             >
-                <SidebarHeader open dark={dark} toggleDarkMode={toggleDarkMode} />
+                <SidebarHeader open />
                 {children}
             </SwipeableDrawer>
             <Drawer
@@ -68,6 +65,7 @@ const Sidebar = ({ children }) => {
                     width: 250,
                     flexShrink: 0,
                     // maxHeight: '100vh',
+                    // backgroundColor: "transparent",
                     overflowY: 'auto',
                     // '& .MuiDrawer-paper': {
                     //     width: 250,
@@ -79,7 +77,7 @@ const Sidebar = ({ children }) => {
                 anchor="left"
                 open={sidebarOpen}
             >
-                <SidebarHeader open={sidebarOpen} closeSidebar={closeSidebar} dark={dark} toggleDarkMode={toggleDarkMode} />
+                <SidebarHeader open={sidebarOpen} closeSidebar={closeSidebar} />
                 {children}
             </Drawer>
         </>

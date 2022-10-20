@@ -9,21 +9,20 @@ import {
     ListItemIcon,
     ListItemText,
     Stack,
-    SvgIcon,
     TextField,
     Toolbar,
     Typography,
     useMediaQuery,
-    Box,
 } from '@mui/material';
 import { Close, Login as LoginIcon } from '@mui/icons-material';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts';
 import { useDictionary, useForm } from '../hooks';
 import { isEmail, isRequired } from '../hooks/useForm';
-import { darkSvg, lightSvg } from '../assets/googleIcons';
 import GoogleButton from './GoogleButton';
 import Register from './Register';
+import { useSnackbar } from 'notistack';
+
 const INITIAL_STATE = {
     email: "",
     password: "",
@@ -37,7 +36,8 @@ const Login = () => {
         ({ password }) => isRequired(password) || { password: dictionary["login"]["errors"]["password"] },
     ];
     const isMobile = useMediaQuery(theme => theme.breakpoints.down("md"));
-    const { login } = useContext(AuthContext);
+    const { login, googleLogin } = useContext(AuthContext);
+    const { enqueueSnackbar } = useSnackbar();
     const {
         values: { email, password },
         changeHandler,
@@ -47,10 +47,15 @@ const Login = () => {
         reset
     } = useForm(INITIAL_STATE, validations);
     
-    const handleLogin = e => {
+    const handleLogin = async e => {
         e.preventDefault();
-        login({ email, password });
-        setOpen(false);
+        const error = await login({ email, password }, enqueueSnackbar);
+        if(error) {
+            console.log(JSON.stringify(error));
+            enqueueSnackbar(`${dictionary["login"]["errors"][error.code]}`, { variant: "error" });    
+        } else {
+            setOpen(false);
+        }
     };
     useEffect(() => {
         if (!open) {
@@ -70,7 +75,6 @@ const Login = () => {
                 fullScreen={isMobile}
                 fullWidth
                 maxWidth="sm"
-                draggable
                 open={open}
                 onClose={() => setOpen(false)}>
                 <AppBar sx={{ position: 'relative' }}>
@@ -87,7 +91,7 @@ const Login = () => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} md={6} lg={6}>
                             <Stack spacing={2}>
-                                <GoogleButton text={"Sign in with google"} onClick={() => console.log("google button")} />
+                                <GoogleButton text={"Sign in with google"} onClick={googleLogin} />
                             </Stack>
                         </Grid>
                         <Grid item xs={12} md={6} lg={6}>
@@ -121,6 +125,7 @@ const Login = () => {
                                     <Stack direction="row" sx={{ justifyContent: "space-between" }}>
                                         <Register />
                                         <Button
+                                            sx={{ alignSelf: "flex-end" }}
                                             type="submit"
                                             disabled={!isValid}
                                             onClick={handleLogin}

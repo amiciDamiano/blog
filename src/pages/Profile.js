@@ -1,27 +1,25 @@
-import { Box, Card, Container, CardActionArea, CardContent, CardMedia, Typography, Stack } from '@mui/material';
-import React from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useContext } from 'react'
+import { Box, Card, CardActionArea, CardContent, CardMedia, Container, Stack, Typography } from '@mui/material';
+import { AuthContext } from '../contexts';
+import { useDictionary, useUserArticles } from '../hooks';
 import Loading from './Loading';
 import GlassCard from '../components/GlassCard';
-import { useCategoryArticles, useDictionary, useTranslatedTitle } from '../hooks';
+import { Link } from 'react-router-dom';
 
-const Category = () => {
-    const { category } = useParams();
-    const navigate = useNavigate();
+const Profile = () => {
+
+    const { state: { user } } = useContext(AuthContext);
+    const { articles } = useUserArticles(user);
     const dictionary = useDictionary();
-
-    const { articles } = useCategoryArticles(category, navigate);
-
-    useTranslatedTitle(category, 'title');
-
+    
     return (
         <Box component={Container} sx={{ textAlign: 'center' }}>
-            <Typography sx={{ mb: theme => theme.spacing(2) }} variant="h2" >{dictionary[category]?.title}</Typography>
+            <Typography sx={{ mb: theme => theme.spacing(2) }} variant="h2" >{dictionary["profile"]["myArticles"]}</Typography>
             {articles.length <= 0 && <Loading />}
             <Stack spacing={2}>
                 {articles.map(article => (
                     <GlassCard sx={{ textAlign: 'left' }} key={article.title}>
-                        <CardActionArea sx={{ display: { xs: 'block', md: 'flex', lg: 'flex' } }} component={Link} to={`${article.id}`}>
+                        <CardActionArea sx={{ display: { xs: 'block', md: 'flex', lg: 'flex' } }} component={Link} to={`/${article.category}/${article.id}`}>
                             {article.image && (
                                 <CardMedia
                                     component="img"
@@ -49,7 +47,7 @@ const Category = () => {
                 ))}
             </Stack>
         </Box>
-    );
-};
+    )
+}
 
-export default Category;
+export default Profile;

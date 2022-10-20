@@ -40,13 +40,13 @@ const Register = () => {
 
     useEffect(() => {
         if(!open) {
-            reset();
+            // reset();
         }
     }, [open]);
 
     return (
         <React.Fragment>
-            <Link onClick={() => setOpen(true)}>
+            <Link sx={{ cursor: "pointer" }} onClick={() => setOpen(true)}>
                 {dictionary["login"]["noAccount"]}
             </Link>
             <Dialog
@@ -115,10 +115,11 @@ const Register = () => {
                                 </Grid>
                                 <Grid item xs={12} md={12} lg={12}>
                                     <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-                                        <Link onClick={() => setOpen(false)}>
+                                        <Link sx={{ cursor: "pointer" }} onClick={() => setOpen(false)}>
                                             {dictionary["register"]["alreadyRegistered"]}
                                         </Link>
                                         <Button
+                                            sx={{ alignSelf: "flex-end" }}
                                             type="submit"
                                             disabled={!isValid}
                                             onClick={handleRegister}

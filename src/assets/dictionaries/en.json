@@ -3,6 +3,10 @@
     "categories": "Categories",
     "articles": "Articles",
     "noOptions": "No options",
+    "profile": {
+        "myArticles": "My Articles",
+        "title": "Profile"
+    },
     "login": {
         "title": "Login",
         "email": "Email",
@@ -10,6 +14,8 @@
         "submit": "Login",
         "noAccount": "Do not have an account? Sign up",
         "errors": {
+            "auth/too-many-requests": "Too many requests",
+            "auth/wrong-password": "Wrong password",
             "email": "Email required",
             "isNotEmail": "Insert a valid email address",
             "password": "Password required"
@@ -29,9 +35,6 @@
             "noMatchPassword": "Confirm Password must be equal to password",
             "confirmPasswordRequired": "Confirm Password required"
         }
-    },
-    "profile": {
-        "title": "Profile"
     },
     "pageNotFound": {
         "title": "Page Not Found",

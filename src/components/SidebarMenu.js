@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore, Category, Folder, Logout } from '@mui/icons-material'
+import { ExpandLess, ExpandMore, Category, Folder, Logout } from '@mui/icons-material';
 import {
     Avatar,
     Box,
@@ -10,35 +10,48 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText
-} from '@mui/material'
-import React, { useContext, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { AuthContext } from '../contexts'
-import { useCategories, useDictionary } from '../hooks'
-import Login from './Login'
+} from '@mui/material';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { AuthContext, ThemeContext } from '../contexts';
+import { useCategories, useDictionary } from '../hooks';
+import { STORE_TOKEN, STORE_USER } from '../utilities';
+import ColorModeSwitch from './ColorModeSwitch';
+import Login from './Login';
+import WaveSwitch from './WaveSwitch';
 
 const SidebarMenu = () => {
 
     const { categories } = useCategories();
     const location = useLocation();
+    const navigate = useNavigate();
     const dictionary = useDictionary();
     const [categoriesOpen, setCategoriesOpen] = useState(true);
-    const { state: { user } } = useContext(AuthContext);
+    const { state: { wave, dark }, toggleWave, toggleDarkMode } = useContext(ThemeContext);
+    const { state: { user }, setUser, logout } = useContext(AuthContext);
+    
+    useEffect(() => {
+        const _user = JSON.parse(localStorage.getItem(STORE_USER));
+        const _token = localStorage.getItem(STORE_TOKEN);
+        setUser(_user, _token); 
+    }, []);
+
     const toggleCategories = () => {
         setCategoriesOpen(_state => !_state);
     };
-    console.log(user)
+    
     return (
         <Box sx={{
             display: "flex",
+            backgroundColor: "transparent",
             flex: 1,
             height: "-webkit-fill-available",
             maxHeight: "calc(100% - 64px)",
             flexDirection: "column",
             justifyContent: "space-between"
         }}>
-            <Box sx={{ overflowY: "auto", flex: 1 }}>
-                <List >
+            <Box sx={{ backgroundColor: "transparent", overflowY: "auto", flex: 1 }}>
+                <List sx={{ backgroundColor: "transparent" }}>
                     <ListItemButton onClick={toggleCategories}>
                         <ListItemIcon>
                             <Category />
@@ -69,25 +82,35 @@ const SidebarMenu = () => {
             <Divider />
             <Box sx={{ justifySelf: "flex-end" }}>
                 <List>
+                    <ListItem>
+                        <WaveSwitch 
+                            checked={wave} 
+                            onChange={toggleWave}
+                        />
+                        <ColorModeSwitch checked={dark} onChange={toggleDarkMode} />
+                    </ListItem>
                     {!user
                         ? <Login />
                         : <React.Fragment>
-                            <ListItem alignItems="center">
+                            <ListItemButton 
+                                component={Link}
+                                to={'/profile'}
+                                alignItems="center">
                                 <ListItemAvatar>
-                                    <Avatar src={user.photoURL} alt={user.email} />
+                                    <Avatar referrerPolicy="no-referrer" imgProps={{ referrerPolicy: "no-referrer" }} src={user.photoURL} alt={user.email} />
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={dictionary["profile"]["title"]}
                                 />
-                            </ListItem>
-                            <ListItem alignItems="center">
-                                <ListItemIcon>
+                            </ListItemButton>
+                            <ListItemButton alignItems="center" onClick={() => logout(navigate)} >
+                                <ListItemIcon sx={{ justifyContent: "center" }}>
                                     <Logout />
                                 </ListItemIcon>
                                 <ListItemText
                                     primary="Logout"
                                 />
-                            </ListItem>
+                            </ListItemButton>
                         </React.Fragment>
                     }
                 </List>

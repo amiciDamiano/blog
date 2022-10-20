@@ -54,7 +54,7 @@ const Search = ({ dictionary, closeSidebar }) => {
                 <TextField
                     {...params}
                     key={'search'}
-                    color='info'
+                    color='secondary'
                     label={`${dictionary['search']}...`}
                     variant="outlined"
                     // type="search"
@@ -67,7 +67,7 @@ const Search = ({ dictionary, closeSidebar }) => {
                             </React.Fragment>
                         ),
                     }}
-                    sx={{ mx: 1 }}
+                    // sx={{ mx: 1 }}
                 />
             )}
         />

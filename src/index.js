@@ -4,18 +4,21 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import { ThemeProvider, LanguageProvider, AuthProvider } from './contexts';
 import reportWebVitals from './reportWebVitals';
-import "./index.css"
+import { SnackbarProvider } from 'notistack';
+import "./index.css";
 
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
-    <AuthProvider>
-      <LanguageProvider>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
-      </LanguageProvider>
-    </AuthProvider>
+    <SnackbarProvider maxSnack={3} anchorOrigin={{ horizontal: "right", vertical: "top" }}>
+      <AuthProvider>
+        <LanguageProvider>
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
+        </LanguageProvider>
+      </AuthProvider>
+    </SnackbarProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

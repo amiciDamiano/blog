@@ -23,7 +23,7 @@ const DarkMarkdown = (props) => {
                         li: {
                             component: (props) => <ListItem sx={{ marginTop: theme => theme.spacing(1) }}>
                                 <Typography {...props} component="span" />
-                            </ListItem>,
+                            </ListItem>
                         },
                         img: { props: { style: { marginLeft: 5, marginRight: 5 } } }
                     }

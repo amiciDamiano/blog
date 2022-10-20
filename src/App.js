@@ -14,23 +14,53 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { useContext, useEffect, useMemo } from 'react';
-import { ThemeContext, LanguageContext } from './contexts';
+import { ThemeContext, LanguageContext, AuthContext } from './contexts';
 import Main from './components/Main';
 import AppBar from './components/AppBar';
 import { Menu, MenuOpen } from '@mui/icons-material';
 import Content from './Content';
 import SidebarMenu from './components/SidebarMenu';
 import { BrowserRouter } from 'react-router-dom';
-import { STORE_LANGUAGE_PREFERENCE, STORE_THEME_PREFERENCE } from './utilities';
+import { STORE_LANGUAGE_PREFERENCE, STORE_THEME_PREFERENCE, STORE_WAVE_PREFERENCE } from './utilities';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getDoc, doc, setDoc } from 'firebase/firestore';
+import { db } from "./firebase";
+ 
 
 function App() {
 
-  const { state: { dark, sidebarOpen }, openSidebar, closeSidebar, setDarkMode } = useContext(ThemeContext);
+  const { state: { dark, sidebarOpen, wave }, openSidebar, closeSidebar, setDarkMode, setWave } = useContext(ThemeContext);
   const { state: { languageAbbr, menuOpened, languages }, openMenu, closeMenu, onChangeLanguage } = useContext(LanguageContext);
-  // useEffect(()=>alert(sidebarOpen), [sidebarOpen]);
+  const { setUser } = useContext(AuthContext); 
+  
   useEffect(() => {
     const _dark = localStorage.getItem(STORE_THEME_PREFERENCE) === 'true';
     setDarkMode(_dark);
+  }, []);
+
+  useEffect(() => {
+    const _wave = localStorage.getItem(STORE_WAVE_PREFERENCE) === 'true';
+    setWave(_wave);
+  }, []);
+
+  useEffect(() => {
+    const authentication = getAuth();
+    onAuthStateChanged(authentication, async user => {
+      const token = user?.refreshToken;
+      setUser(user, token);
+      if(user && token) {
+        const ref = doc(db, "users", user.uid);
+        const savedUser = await (await getDoc(ref)).exists();
+        if (!savedUser) {
+          setDoc(ref, {
+            email: user.email,
+            username: user.displayName
+          });
+        }
+      }
+    }, error => {
+      console.error("error", error);
+    });
   }, []);
 
   useEffect(() => {
@@ -77,15 +107,25 @@ function App() {
         },
         palette: {
           mode: dark ? 'dark' : 'light',
+          // primary: {
+          //   main: '#fdd835',
+          //   light: '#fddf5d',
+          //   dark: '#b19725'
+          // },
           primary: {
-            main: '#fdd835',
-            light: '#fddf5d',
-            dark: '#b19725'
+            main: '#d66c3a',
+            light: '#ff9c66',
+            dark: '#9f3e0e'
           },
+          // secondary: {
+          //   main: '#ef6c00',
+          //   light: '#f28933',
+          //   dark: '#a74b00'
+          // },
           secondary: {
-            main: '#ef6c00',
-            light: '#f28933',
-            dark: '#a74b00'
+            main: dark ? '#e5e3e1' : '#1e211e',
+            light: dark ? '#ffffff' : '#454845',
+            dark: dark ? '#b3b1af' : '#000000'
           },
         },
       }),
@@ -97,7 +137,13 @@ function App() {
   return (
     <BrowserRouter basename='/blog'>
       <MaterialProvider theme={theme}>
-        <Box sx={{ display: 'flex', overflowX: 'hidden' }}>
+        {
+          wave && <Box className="wave" />
+        }
+        <Box sx={{ 
+            display: 'flex', 
+            overflowX: 'hidden'
+          }}>
           <CssBaseline />
           <AppBar position="fixed" sx={{ justifyContent: { sm: "center" } }} open={sidebarOpen || matches}>
             <Toolbar sx={{ zIndex: (theme) => theme.zIndex.drawer + 9999999 }}>
