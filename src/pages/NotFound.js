@@ -2,13 +2,13 @@ import {
     Container, 
     Box, 
     Button, 
-    Card, 
     CardActions, 
     CardContent, 
     Typography 
 } from '@mui/material';
 import React from 'react'
 import { Link } from 'react-router-dom';
+import GlassCard from '../components/GlassCard';
 import { useDictionary } from '../hooks';
 
 const NotFound = () => {
@@ -23,7 +23,7 @@ const NotFound = () => {
                 justifyContent: 'center',
             }}
         >
-            <Card>
+            <GlassCard>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
                         {dictionary.pageNotFound.title}
@@ -39,7 +39,7 @@ const NotFound = () => {
                         </Button>
                     </Link>
                 </CardActions>
-            </Card>
+            </GlassCard>
         </Box>
     )
 }

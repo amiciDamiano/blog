@@ -16,7 +16,7 @@ import {
     Link,
 } from '@mui/material';
 import { Close, Login as LoginIcon } from '@mui/icons-material';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { AuthContext } from '../contexts';
 import { useDictionary, useForm } from '../hooks';
 import { isEmail, isRequired } from '../hooks/useForm';

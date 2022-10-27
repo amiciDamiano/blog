@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { db } from "../firebase";
 import { ref, getStorage, getBlob } from 'firebase/storage';
-import { onSnapshot, collection, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 const storage = getStorage();
 

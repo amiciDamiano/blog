@@ -1,4 +1,5 @@
-import { ExpandLess, ExpandMore, Category, Folder, Logout, ChangeCircle } from '@mui/icons-material';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { ExpandLess, ExpandMore, Category, Folder, Logout } from '@mui/icons-material';
 import {
     Avatar,
     Box,
@@ -30,7 +31,7 @@ const SidebarMenu = () => {
     const dictionary = useDictionary();
     const [categoriesOpen, setCategoriesOpen] = useState(true);
     const { state: { wave, dark }, toggleWave, toggleDarkMode } = useContext(ThemeContext);
-    const { state: { user }, setUser, logout, changeProfilePicture } = useContext(AuthContext);
+    const { state: { user }, setUser, logout } = useContext(AuthContext);
     
     useEffect(() => {
         const _user = JSON.parse(localStorage.getItem(STORE_USER));
@@ -106,14 +107,6 @@ const SidebarMenu = () => {
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={dictionary["profile"]["title"]}
-                                />
-                            </ListItemButton>
-                            <ListItemButton alignItems="center" onClick={changeProfilePicture} >
-                                <ListItemIcon sx={{ justifyContent: "center" }}>
-                                    <ChangeCircle />
-                                </ListItemIcon>
-                                <ListItemText
-                                    primary="Change Picture"
                                 />
                             </ListItemButton>
                             <ListItemButton alignItems="center" onClick={() => logout(navigate)} >

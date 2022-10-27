@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Sidebar from './components/Sidebar';
 import {
   ThemeProvider as MaterialProvider,
@@ -14,7 +15,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { Logo } from "./assets/logo";
-import { useContext, useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { ThemeContext, LanguageContext, AuthContext } from './contexts';
 import Main from './components/Main';
 import AppBar from './components/AppBar';
@@ -30,7 +31,7 @@ import { useSnackbar } from 'notistack';
 
 
 function App() {
-
+  const [userChecked, setUserChecked] = useState(false);
   const { state: { dark, sidebarOpen, wave }, openSidebar, closeSidebar, setDarkMode, setWave } = useContext(ThemeContext);
   const { state: { languageAbbr, menuOpened, languages }, openMenu, closeMenu, onChangeLanguage } = useContext(LanguageContext);
   const { setUser } = useContext(AuthContext);
@@ -50,6 +51,7 @@ function App() {
     const authentication = getAuth();
     onAuthStateChanged(authentication, async user => {
       const token = user?.refreshToken;
+      setUserChecked(true)
       setUser(user, token);
       if (user && token) {
         const emailVerified = user?.emailVerified;
@@ -141,11 +143,6 @@ function App() {
   );
 
   const upMd = useMediaQuery(theme.breakpoints.up('md'));
-  // const mdLg = useMediaQuery(theme.breakpoints.between('md', 'lg'));
-  // const upLg = useMediaQuery(theme.breakpoints.up('lg'));
-  // console.log(mdLg)
-  // let waveYLeft = mdLg ? "-100%" : (upLg ? "-70%" : "-20%");
-  // let waveBRight = mdLg ? "-20%" : (upLg ? "-170%": "-170%");
 
   return (
     <BrowserRouter basename='/blog'>
@@ -153,9 +150,7 @@ function App() {
         {
           wave && <>
             <Box className="wave-yellow" />
-            {/* <Box className="wave-yellow" sx={{ left: waveYLeft, top: upLg && "-230%" }} /> */}
             <Box className="wave-blue" />
-            {/* <Box className="wave-blue" sx={{ right: waveBRight }} /> */}
             <Box className="wave-orange" />
           </>
         }
@@ -174,8 +169,8 @@ function App() {
                 sx={{ mr: 2, display: { xs: 'block', md: 'none' }, }}
               >
                 {sidebarOpen
-                  ? <MenuOpen/>
-                  : <Menu/>
+                  ? <MenuOpen />
+                  : <Menu />
                 }
               </IconButton>
               <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mr: 3, zIndex: -1 }}>
@@ -211,9 +206,7 @@ function App() {
               open={sidebarOpen}
               onClick={closeSidebar}
             />
-            {/* <Container> */}
-            <Content />
-            {/* </Container> */}
+            { userChecked && <Content /> }
           </Main>
         </Box>
       </MaterialProvider>

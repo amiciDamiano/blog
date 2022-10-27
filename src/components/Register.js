@@ -1,6 +1,6 @@
 import { Close, AppRegistration } from '@mui/icons-material';
 import { AppBar, Button, Dialog, DialogContent, Grid, IconButton, Link, ListItemButton, ListItemIcon, ListItemText, Stack, TextField, Toolbar, Typography, useMediaQuery } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AuthContext } from '../contexts';
 import { useDictionary, useForm } from '../hooks';
 import { isEmail, isRequired } from '../hooks/useForm';
