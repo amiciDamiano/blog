@@ -174,14 +174,14 @@ function App() {
                 sx={{ mr: 2, display: { xs: 'block', md: 'none' }, }}
               >
                 {sidebarOpen
-                  ? <MenuOpen />
-                  : <Menu />
+                  ? <MenuOpen/>
+                  : <Menu/>
                 }
               </IconButton>
-              <Box component={Link} to="/" sx={{ display: "flex", justifyContent: "center", alignItems: "center", mr: 3 }}>
-                <Logo {...(!dark && { color: "white" })} />
+              <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mr: 3, zIndex: -1 }}>
+                <Logo color="white" />
               </Box>
-              <Typography component={Link} to="/" color={dark && "primary"} variant="h6" noWrap sx={{ textDecoration: "unset" }} letterSpacing={5}>
+              <Typography component={Link} to="/" color={"white"} variant="h6" noWrap sx={{ textDecoration: "unset" }} letterSpacing={5}>
                 {'WIKI ALL'}
               </Typography>
               <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>

@@ -52,8 +52,6 @@ const Login = ({ inRegister = false }) => {
         const error = await login({ email, password });
         if (error) {
             enqueueSnackbar(`${dictionary["login"]["errors"][error.code]}`, { variant: "error" });
-        } else {
-            setOpen(false);
         }
     };
     // useEffect(() => {
