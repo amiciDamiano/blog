@@ -13,6 +13,7 @@ import {
     Toolbar,
     Typography,
     useMediaQuery,
+    Link,
 } from '@mui/material';
 import { Close, Login as LoginIcon } from '@mui/icons-material';
 import React, { useContext, useEffect, useState } from 'react';
@@ -27,7 +28,7 @@ const INITIAL_STATE = {
     email: "",
     password: "",
 };
-const Login = () => {
+const Login = ({ inRegister = false }) => {
     const [open, setOpen] = useState(false);
     const dictionary = useDictionary();
     const validations = [
@@ -43,34 +44,39 @@ const Login = () => {
         changeHandler,
         errors,
         touched,
-        isValid,
-        reset
+        isValid
     } = useForm(INITIAL_STATE, validations);
-    
+
     const handleLogin = async e => {
         e.preventDefault();
-        const error = await login({ email, password }, enqueueSnackbar);
-        if(error) {
-            console.log(JSON.stringify(error));
-            enqueueSnackbar(`${dictionary["login"]["errors"][error.code]}`, { variant: "error" });    
+        const error = await login({ email, password });
+        if (error) {
+            enqueueSnackbar(`${dictionary["login"]["errors"][error.code]}`, { variant: "error" });
         } else {
             setOpen(false);
         }
     };
-    useEffect(() => {
-        if (!open) {
-            reset();
-        }
-    }, [open]);
+    // useEffect(() => {
+    //     if (!open) {
+    //         reset();
+    //     }
+    // }, [open]);
 
     return (
         <React.Fragment>
-            <ListItemButton onClick={() => setOpen(true)}>
-                <ListItemIcon>
-                    <LoginIcon />
-                </ListItemIcon>
-                <ListItemText primary={dictionary["login"]["title"]} />
-            </ListItemButton>
+            { !inRegister ? (
+                <ListItemButton onClick={() => setOpen(true)}>
+                    <ListItemIcon>
+                        <LoginIcon />
+                    </ListItemIcon>
+                    <ListItemText primary={dictionary["login"]["title"]} />
+                </ListItemButton>
+
+            ) : (
+                <Link sx={{ cursor: "pointer" }} onClick={() => setOpen(true)}>
+                    {dictionary["register"]["alreadyRegistered"]}
+                </Link>
+            )}
             <Dialog
                 fullScreen={isMobile}
                 fullWidth
@@ -123,7 +129,7 @@ const Login = () => {
                                 </Grid>
                                 <Grid item xs={12} md={12} lg={12}>
                                     <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-                                        <Register />
+                                        <Register inRegister={inRegister} closeLogin={() => setOpen(false)} />
                                         <Button
                                             sx={{ alignSelf: "flex-end" }}
                                             type="submit"

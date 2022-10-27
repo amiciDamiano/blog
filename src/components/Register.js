@@ -1,19 +1,23 @@
-import { Close } from '@mui/icons-material';
-import { AppBar, Button, Dialog, DialogContent, Grid, IconButton, Link, Stack, TextField, Toolbar, Typography, useMediaQuery } from '@mui/material';
+import { Close, AppRegistration } from '@mui/icons-material';
+import { AppBar, Button, Dialog, DialogContent, Grid, IconButton, Link, ListItemButton, ListItemIcon, ListItemText, Stack, TextField, Toolbar, Typography, useMediaQuery } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../contexts';
 import { useDictionary, useForm } from '../hooks';
 import { isEmail, isRequired } from '../hooks/useForm';
 import GoogleButton from './GoogleButton';
+import { useSnackbar } from 'notistack';
+import Login from './Login';
+
 const INITIAL_STATE = {
     email: "",
     password: "",
     confirmPassword: ""
 };
-const Register = () => {
+const Register = ({ inSidebar = false, inRegister = false, closeLogin = () => {} }) => {
 
     const [open, setOpen] = useState(false);
     const { register } = useContext(AuthContext);
+    const { enqueueSnackbar } = useSnackbar();
     const dictionary = useDictionary();
     const isMobile = useMediaQuery(theme => theme.breakpoints.down("md"));
     const validations = [
@@ -29,26 +33,35 @@ const Register = () => {
         errors,
         touched,
         isValid,
-        reset
     } = useForm(INITIAL_STATE, validations);
 
-    const handleRegister = (e) => {
+    const handleRegister = async e => {
         e.preventDefault();
-        register({ email, password, confirmPassword });
-        setOpen(false);
-    };
-
-    useEffect(() => {
-        if(!open) {
-            // reset();
+        const error = await register({ email, password, confirmPassword });
+        if (error) {
+            enqueueSnackbar(`${dictionary["register"]["errors"][error.code]}`, { variant: "error" });
+        } else {
+            enqueueSnackbar(`${dictionary["register"]["success"]}`, { variant: "success" });
+            setOpen(false);
         }
-    }, [open]);
+    };
 
     return (
         <React.Fragment>
-            <Link sx={{ cursor: "pointer" }} onClick={() => setOpen(true)}>
-                {dictionary["login"]["noAccount"]}
-            </Link>
+            {inSidebar ? (
+                <ListItemButton onClick={() => setOpen(true)}>
+                    <ListItemIcon>
+                        <AppRegistration />
+                    </ListItemIcon>
+                    <ListItemText primary={dictionary["register"]["title"]} />
+                </ListItemButton>
+            )
+                : (
+                    <Link sx={{ cursor: "pointer" }} onClick={!inRegister ? () => setOpen(true) : closeLogin}>
+                        {dictionary["login"]["noAccount"]}
+                    </Link>
+                )
+            }
             <Dialog
                 fullScreen={isMobile}
                 fullWidth
@@ -115,9 +128,14 @@ const Register = () => {
                                 </Grid>
                                 <Grid item xs={12} md={12} lg={12}>
                                     <Stack direction="row" sx={{ justifyContent: "space-between" }}>
-                                        <Link sx={{ cursor: "pointer" }} onClick={() => setOpen(false)}>
-                                            {dictionary["register"]["alreadyRegistered"]}
-                                        </Link>
+                                        {inSidebar ? (
+                                            <Login inRegister />
+                                        )
+                                            : (
+                                                <Link sx={{ cursor: "pointer" }} onClick={() => setOpen(false)}>
+                                                    {dictionary["register"]["alreadyRegistered"]}
+                                                </Link>
+                                            )}
                                         <Button
                                             sx={{ alignSelf: "flex-end" }}
                                             type="submit"

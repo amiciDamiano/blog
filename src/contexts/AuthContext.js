@@ -1,11 +1,13 @@
 import createContext from './createDataContext';
 import { 
-    createUserWithEmailAndPassword, 
+    createUserWithEmailAndPassword,
+    sendEmailVerification,
     getAuth, 
     signInWithEmailAndPassword, 
     signOut, 
     GoogleAuthProvider, 
-    signInWithPopup 
+    signInWithPopup,
+    updateProfile,
 } from 'firebase/auth';
 import { STORE_TOKEN, STORE_USER } from '../utilities';
 
@@ -48,12 +50,19 @@ const googleLogin = dispatch => async () => {
         return e;
     }
 };
-
+const changeProfilePicture = dispatch => async () => {
+    const authentication = getAuth();
+    const user = authentication.currentUser;
+    let photoObj = { photoURL: "https://firebasestorage.googleapis.com/v0/b/blog-6386c.appspot.com/o/categories%2Fnodejs.png?alt=media&token=912c4bbe-ac65-4ed9-a00c-b0f8f956f917" }
+    updateProfile(user, photoObj)
+    
+};
 const register = dispatch => async ({ email, password, confirmPassword }) => {
     if (password === confirmPassword) {
         try {
             const authentication = getAuth();
-            await createUserWithEmailAndPassword(authentication, email, password)
+            const result = await createUserWithEmailAndPassword(authentication, email, password);
+            await sendEmailVerification(result.user);
         } catch(e) {
             return e;
         }
@@ -76,7 +85,8 @@ export const { Context, Provider } = createContext(
         register,
         setUser,
         logout,
-        googleLogin
+        googleLogin,
+        changeProfilePicture
         // ACTIONS
     },
     INITIAL_STATE

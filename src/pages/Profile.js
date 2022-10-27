@@ -15,9 +15,9 @@ const Profile = () => {
     return (
         <Box component={Container} sx={{ textAlign: 'center' }}>
             <Typography sx={{ mb: theme => theme.spacing(2) }} variant="h2" >{dictionary["profile"]["myArticles"]}</Typography>
-            {articles.length <= 0 && <Loading />}
+            {articles === null && <Loading />}
             <Stack spacing={2}>
-                {articles.map(article => (
+                {articles?.map(article => (
                     <GlassCard sx={{ textAlign: 'left' }} key={article.title}>
                         <CardActionArea sx={{ display: { xs: 'block', md: 'flex', lg: 'flex' } }} component={Link} to={`/${article.category}/${article.id}`}>
                             {article.image && (

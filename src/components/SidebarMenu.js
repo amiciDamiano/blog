@@ -1,4 +1,4 @@
-import { ExpandLess, ExpandMore, Category, Folder, Logout } from '@mui/icons-material';
+import { ExpandLess, ExpandMore, Category, Folder, Logout, ChangeCircle } from '@mui/icons-material';
 import {
     Avatar,
     Box,
@@ -18,7 +18,9 @@ import { useCategories, useDictionary } from '../hooks';
 import { STORE_TOKEN, STORE_USER } from '../utilities';
 import ColorModeSwitch from './ColorModeSwitch';
 import Login from './Login';
+import GlassCard from './GlassCard';
 import WaveSwitch from './WaveSwitch';
+import Register from './Register';
 
 const SidebarMenu = () => {
 
@@ -28,7 +30,7 @@ const SidebarMenu = () => {
     const dictionary = useDictionary();
     const [categoriesOpen, setCategoriesOpen] = useState(true);
     const { state: { wave, dark }, toggleWave, toggleDarkMode } = useContext(ThemeContext);
-    const { state: { user }, setUser, logout } = useContext(AuthContext);
+    const { state: { user }, setUser, logout, changeProfilePicture } = useContext(AuthContext);
     
     useEffect(() => {
         const _user = JSON.parse(localStorage.getItem(STORE_USER));
@@ -39,9 +41,9 @@ const SidebarMenu = () => {
     const toggleCategories = () => {
         setCategoriesOpen(_state => !_state);
     };
-    
+
     return (
-        <Box sx={{
+        <Box component={GlassCard} sx={{
             display: "flex",
             backgroundColor: "transparent",
             flex: 1,
@@ -51,7 +53,7 @@ const SidebarMenu = () => {
             justifyContent: "space-between"
         }}>
             <Box sx={{ backgroundColor: "transparent", overflowY: "auto", flex: 1 }}>
-                <List sx={{ backgroundColor: "transparent" }}>
+                <List >
                     <ListItemButton onClick={toggleCategories}>
                         <ListItemIcon>
                             <Category />
@@ -90,17 +92,28 @@ const SidebarMenu = () => {
                         <ColorModeSwitch checked={dark} onChange={toggleDarkMode} />
                     </ListItem>
                     {!user
-                        ? <Login />
+                        ? <React.Fragment>
+                            <Login />
+                            <Register inSidebar />
+                        </React.Fragment>
                         : <React.Fragment>
                             <ListItemButton 
                                 component={Link}
                                 to={'/profile'}
                                 alignItems="center">
                                 <ListItemAvatar>
-                                    <Avatar referrerPolicy="no-referrer" imgProps={{ referrerPolicy: "no-referrer" }} src={user.photoURL} alt={user.email} />
+                                    <Avatar referrerPolicy="no-referrer" imgProps={{ referrerPolicy: "no-referrer" }} src={user.providerData[0].photoURL} alt={user.email} />
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={dictionary["profile"]["title"]}
+                                />
+                            </ListItemButton>
+                            <ListItemButton alignItems="center" onClick={changeProfilePicture} >
+                                <ListItemIcon sx={{ justifyContent: "center" }}>
+                                    <ChangeCircle />
+                                </ListItemIcon>
+                                <ListItemText
+                                    primary="Change Picture"
                                 />
                             </ListItemButton>
                             <ListItemButton alignItems="center" onClick={() => logout(navigate)} >

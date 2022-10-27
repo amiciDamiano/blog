@@ -13,23 +13,16 @@ const useArticleId = (id, navigate) => {
             const _doc = await getDoc(doc(db, "articles", id));
             if(!_doc.exists()) {
                 navigate("/404")
+            } else {
+                let _article = _doc.data();
+                document.title = _article.title;
+                const blob = await getBlob(ref(storage, `/articles_page/${_article.content}`));
+                _article.content = await blob.text();
+                setArticle(_article);
             }
         };
-        const unsubscribe = onSnapshot(collection(db, 'articles'), async snapshot => {
-            let result;
-            for(let doc of snapshot.docs) {
-                if(doc.id === id) {
-                  result = doc.data();
-                  document.title = result.title;
-                  const blob = await getBlob(ref(storage, `/articles_page/${result.content}`));
-                  result.content = await blob.text();
-                  break
-                }
-            }
-            setArticle(result);
-        });
+        
         checkRoute();
-        return unsubscribe;
     }, []);
     
     return { article };

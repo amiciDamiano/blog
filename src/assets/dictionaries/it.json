@@ -28,7 +28,9 @@
         "confirmPassword": "Password di conferma",
         "submit": "Registrati",
         "alreadyRegistered": "Hai già un account? Accedi",
+        "success": "Registrazione completata!",
         "errors": {
+            "auth/email-already-in-use": "Email già in uso",
             "email": "Email obbligatoria",
             "isNotEmail": "Inserire un indirizzo email valido",
             "password": "Password obbligatoria",

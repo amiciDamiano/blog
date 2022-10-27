@@ -28,7 +28,9 @@
         "confirmPassword": "Confirm password",
         "submit": "Sign up",
         "alreadyRegistered": "Do you have an account? Sign in",
+        "success": "Sign up complete!",
         "errors": {
+            "auth/email-already-in-use": "Email already in use",
             "email": "Email required",
             "isNotEmail": "Insert a valid email address",
             "password": "Password required",

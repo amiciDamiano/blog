@@ -7,7 +7,7 @@ const storage = getStorage();
 
 const useUserArticles = (user) => {
     
-    const [ articles, setArticles ] = useState([]);
+    const [ articles, setArticles ] = useState(null);
 
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, "articles"), async snapshot => {

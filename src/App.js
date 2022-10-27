@@ -13,6 +13,7 @@ import {
   Menu as MUIMenu,
   useMediaQuery,
 } from '@mui/material';
+import { Logo } from "./assets/logo";
 import { useContext, useEffect, useMemo } from 'react';
 import { ThemeContext, LanguageContext, AuthContext } from './contexts';
 import Main from './components/Main';
@@ -20,19 +21,21 @@ import AppBar from './components/AppBar';
 import { Menu, MenuOpen } from '@mui/icons-material';
 import Content from './Content';
 import SidebarMenu from './components/SidebarMenu';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Link } from 'react-router-dom';
 import { STORE_LANGUAGE_PREFERENCE, STORE_THEME_PREFERENCE, STORE_WAVE_PREFERENCE } from './utilities';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc, setDoc } from 'firebase/firestore';
 import { db } from "./firebase";
- 
+import { useSnackbar } from 'notistack';
+
 
 function App() {
 
   const { state: { dark, sidebarOpen, wave }, openSidebar, closeSidebar, setDarkMode, setWave } = useContext(ThemeContext);
   const { state: { languageAbbr, menuOpened, languages }, openMenu, closeMenu, onChangeLanguage } = useContext(LanguageContext);
-  const { setUser } = useContext(AuthContext); 
-  
+  const { setUser } = useContext(AuthContext);
+  const { enqueueSnackbar } = useSnackbar();
+
   useEffect(() => {
     const _dark = localStorage.getItem(STORE_THEME_PREFERENCE) === 'true';
     setDarkMode(_dark);
@@ -48,14 +51,19 @@ function App() {
     onAuthStateChanged(authentication, async user => {
       const token = user?.refreshToken;
       setUser(user, token);
-      if(user && token) {
-        const ref = doc(db, "users", user.uid);
-        const savedUser = await (await getDoc(ref)).exists();
-        if (!savedUser) {
-          setDoc(ref, {
-            email: user.email,
-            username: user.displayName
-          });
+      if (user && token) {
+        const emailVerified = user?.emailVerified;
+        if (!emailVerified) {
+          enqueueSnackbar("Email not verified", { variant: "error" });
+        } else {
+          const ref = doc(db, "users", user.uid);
+          const savedUser = await (await getDoc(ref)).exists();
+          if (!savedUser) {
+            setDoc(ref, {
+              email: user.email,
+              username: user.displayName
+            });
+          }
         }
       }
     }, error => {
@@ -132,20 +140,31 @@ function App() {
     [dark],
   );
 
-  const matches = useMediaQuery(theme.breakpoints.up('md'));
+  const upMd = useMediaQuery(theme.breakpoints.up('md'));
+  // const mdLg = useMediaQuery(theme.breakpoints.between('md', 'lg'));
+  // const upLg = useMediaQuery(theme.breakpoints.up('lg'));
+  // console.log(mdLg)
+  // let waveYLeft = mdLg ? "-100%" : (upLg ? "-70%" : "-20%");
+  // let waveBRight = mdLg ? "-20%" : (upLg ? "-170%": "-170%");
 
   return (
     <BrowserRouter basename='/blog'>
       <MaterialProvider theme={theme}>
         {
-          wave && <Box className="wave" />
+          wave && <>
+            <Box className="wave-yellow" />
+            {/* <Box className="wave-yellow" sx={{ left: waveYLeft, top: upLg && "-230%" }} /> */}
+            <Box className="wave-blue" />
+            {/* <Box className="wave-blue" sx={{ right: waveBRight }} /> */}
+            <Box className="wave-orange" />
+          </>
         }
-        <Box sx={{ 
-            display: 'flex', 
-            overflowX: 'hidden'
-          }}>
+        <Box sx={{
+          display: 'flex',
+          overflowX: 'hidden'
+        }}>
           <CssBaseline />
-          <AppBar position="fixed" sx={{ justifyContent: { sm: "center" } }} open={sidebarOpen || matches}>
+          <AppBar position="fixed" sx={{ justifyContent: { sm: "center" } }} open={sidebarOpen || upMd}>
             <Toolbar sx={{ zIndex: (theme) => theme.zIndex.drawer + 9999999 }}>
               <IconButton
                 color="inherit"
@@ -159,8 +178,11 @@ function App() {
                   : <Menu />
                 }
               </IconButton>
-              <Typography variant="h6" noWrap component="div">
-                {'false === false'}
+              <Box component={Link} to="/" sx={{ display: "flex", justifyContent: "center", alignItems: "center", mr: 3 }}>
+                <Logo {...(!dark && { color: "white" })} />
+              </Box>
+              <Typography component={Link} to="/" color={dark && "primary"} variant="h6" noWrap sx={{ textDecoration: "unset" }} letterSpacing={5}>
+                {'WIKI ALL'}
               </Typography>
               <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
                 <Button style={{ justifySelf: 'flex-end' }} id="language-menu" color='inherit' onClick={openMenu}>{languageAbbr}</Button>
