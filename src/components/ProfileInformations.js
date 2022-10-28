@@ -180,7 +180,7 @@ const ProfileInformations = () => {
                             startIcon={user.emailVerified ? <Check /> : <Send />}
                             onClick={user.emailVerified ? null : sendEmail}
                         >
-                            {user.emailVerified ? "VERIFIED" : dictionary["profile"]["sendConfirmationEmail"]}
+                            {user.emailVerified ? dictionary["profile"]["emailVerified"] : dictionary["profile"]["sendConfirmationEmail"]}
                         </Button>
                             <Button 
                                 variant="contained"
