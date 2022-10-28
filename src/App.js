@@ -22,7 +22,7 @@ import AppBar from './components/AppBar';
 import { Menu, MenuOpen } from '@mui/icons-material';
 import Content from './Content';
 import SidebarMenu from './components/SidebarMenu';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { BrowserRouter, Link, HashRouter, Router, Route } from 'react-router-dom';
 import { STORE_LANGUAGE_PREFERENCE, STORE_THEME_PREFERENCE, STORE_WAVE_PREFERENCE } from './utilities';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc, setDoc } from 'firebase/firestore';
@@ -145,7 +145,7 @@ function App() {
   const upMd = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
-    <BrowserRouter basename='/blog'>
+    <HashRouter>
       <MaterialProvider theme={theme}>
         {
           wave && <>
@@ -174,7 +174,7 @@ function App() {
                 }
               </IconButton>
               <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mr: 3, zIndex: -1 }}>
-                <Logo {...(dark && {color: "white"})} />
+                <Logo {...(dark && { color: "white" })} />
               </Box>
               <Typography component={Link} to="/" color={dark ? "white" : "primary"} variant="h6" noWrap sx={{ textDecoration: "unset" }} letterSpacing={5}>
                 {'WIKI ALL'}
@@ -206,11 +206,11 @@ function App() {
               open={sidebarOpen}
               onClick={closeSidebar}
             />
-            { userChecked && <Content /> }
+            {userChecked && <Content />}
           </Main>
         </Box>
       </MaterialProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
