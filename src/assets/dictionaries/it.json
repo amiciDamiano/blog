@@ -2,10 +2,46 @@
     "search": "Cerca",
     "categories": "Categorie",
     "articles": "Articoli",
+    "save": "Salva",
     "noOptions": "Nessun risultato",
+    "logoutIn": "Per favore riaccedere, logout in",
+    "seconds": "secondi",
+    "auth": {
+        "emailVerified": "Email verificata correttamente",
+        "emailSended": "Email di conferma inviata",
+        "errors": {
+            "auth/too-many-requests": "Troppe richieste",
+            "auth/wrong-password": "Password errata",
+            "auth/email-already-in-use": "Email già in uso",
+            "auth/weak-password": "Weak Password"
+        }
+    },
     "profile": {
+        "sendConfirmationEmail": "email di conferma",
         "myArticles": "I miei articoli",
-        "title": "Profilo"
+        "resetPassword": "Cambia password",
+        "password": "Password attuale",
+        "newPassword": "Nuova password",
+        "confirmNewPassword": "Conferma nuova password",
+        "title": "Profilo",
+        "username": "Username",
+        "informations": "Informazioni profilo",
+        "success": "Informazioni aggiornate correttamente!",
+        "errors": {
+            "displayName": {
+                "required": "Username richiesto"
+            },
+            "password": {
+                "required": "Password attuale richiesta"
+            },
+            "newPassword": {
+                "required": "Nuova password richiesta"
+            },
+            "confirmNewPassword": {
+                "required": "Conferma password richiesta",
+                "mustBeEqualToNewPassword": "Deve essere uguale alla nuova password"
+            }
+        }
     },
     "login": {
         "title": "Accedi",
@@ -14,8 +50,6 @@
         "submit": "Accedi",
         "noAccount": "Non hai un account? Registrati",
         "errors": {
-            "auth/too-many-requests": "Troppe richieste",
-            "auth/wrong-password": "Password errata",
             "email": "Email obbligatoria",
             "isNotEmail": "Inserire un indirizzo email valido",
             "password": "Password obbligatoria"
@@ -30,7 +64,6 @@
         "alreadyRegistered": "Hai già un account? Accedi",
         "success": "Registrazione completata!",
         "errors": {
-            "auth/email-already-in-use": "Email già in uso",
             "email": "Email obbligatoria",
             "isNotEmail": "Inserire un indirizzo email valido",
             "password": "Password obbligatoria",

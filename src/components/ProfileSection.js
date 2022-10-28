@@ -2,9 +2,9 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from '@mui/
 import React from 'react';
 import { ExpandMore } from '@mui/icons-material';
 
-const ProfileSection = ({ title, children }) => {
+const ProfileSection = ({ title, children, startOpen = false }) => {
     return (
-        <Accordion disableGutters sx={{ background: "transparent", boxShadow: "unset" }}>
+        <Accordion defaultExpanded={startOpen} disableGutters sx={{ background: "transparent", boxShadow: "unset" }}>
             <AccordionSummary
                 expandIcon={<ExpandMore />}
                 sx={{ borderBottom: _ => `1px solid ${_.palette.divider}`}}

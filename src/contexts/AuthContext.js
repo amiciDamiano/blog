@@ -1,15 +1,16 @@
 import createContext from './createDataContext';
-import { 
+import {
     createUserWithEmailAndPassword,
     sendEmailVerification,
-    getAuth, 
-    signInWithEmailAndPassword, 
-    signOut, 
-    GoogleAuthProvider, 
+    getAuth,
+    signInWithEmailAndPassword,
+    signOut,
+    GoogleAuthProvider,
     signInWithPopup,
     updateProfile,
 } from 'firebase/auth';
 import { STORE_TOKEN, STORE_USER } from '../utilities';
+import { getDownloadURL, ref, getStorage, uploadBytes } from 'firebase/storage';
 
 const SET_USER = "set_user";
 
@@ -36,7 +37,7 @@ const login = dispatch => async ({ email, password }) => {
     try {
         const authentication = getAuth();
         await signInWithEmailAndPassword(authentication, email, password);
-    } catch(e) {
+    } catch (e) {
         return e;
     }
 };
@@ -46,24 +47,51 @@ const googleLogin = dispatch => async () => {
         const googleProvider = new GoogleAuthProvider();
         const authentication = getAuth();
         await signInWithPopup(authentication, googleProvider);
-    } catch(e) {
+    } catch (e) {
         return e;
     }
 };
-const changeProfilePicture = dispatch => async () => {
+
+const sendEmailConfirm = dispatch => async () => {
     const authentication = getAuth();
     const user = authentication.currentUser;
-    let photoObj = { photoURL: "https://firebasestorage.googleapis.com/v0/b/blog-6386c.appspot.com/o/categories%2Fnodejs.png?alt=media&token=912c4bbe-ac65-4ed9-a00c-b0f8f956f917" }
-    updateProfile(user, photoObj)
-    
+    try {
+        await sendEmailVerification(user);
+    } catch(e) {
+        return e;
+    }
+
 };
+const changeProfile = dispatch => async ({ displayName, photoURL, currentPhoto, userId, filename }) => {
+    const authentication = getAuth();
+    const storage = getStorage();
+    const user = authentication.currentUser;
+    try {
+        if (photoURL && (photoURL !== currentPhoto)) {
+            const blob = await (await fetch(photoURL)).blob()
+            const res = await uploadBytes(ref(storage, `/profiles/${userId}/${filename}`), blob)
+            const imageURL = await getDownloadURL(res.metadata.ref);
+            photoURL = imageURL;
+        } else if(!photoURL) {
+            photoURL = "";
+        }
+        await updateProfile(user, { displayName, photoURL });
+        user.reload();
+        const token = user.refreshToken;
+        dispatch({ type: SET_USER, payload: { user: {...user}, token } });
+        return photoURL;
+    } catch (e) {
+        return e;
+    }
+};
+
 const register = dispatch => async ({ email, password, confirmPassword }) => {
     if (password === confirmPassword) {
         try {
             const authentication = getAuth();
             const result = await createUserWithEmailAndPassword(authentication, email, password);
             await sendEmailVerification(result.user);
-        } catch(e) {
+        } catch (e) {
             return e;
         }
     }
@@ -72,11 +100,11 @@ const register = dispatch => async ({ email, password, confirmPassword }) => {
 const logout = dispatch => async navigate => {
     const authentication = getAuth();
     signOut(authentication);
-    dispatch({ type: SET_USER, payload: { user: null, token: "" }});
+    dispatch({ type: SET_USER, payload: { user: null, token: "" } });
     navigate("/");
 };
 
-const setUser = dispatch => (user, token) => dispatch({ type: SET_USER, payload: { user, token }});
+const setUser = dispatch => (user, token) => dispatch({ type: SET_USER, payload: { user, token } });
 
 export const { Context, Provider } = createContext(
     reducer,
@@ -86,7 +114,8 @@ export const { Context, Provider } = createContext(
         setUser,
         logout,
         googleLogin,
-        changeProfilePicture
+        changeProfile,
+        sendEmailConfirm
         // ACTIONS
     },
     INITIAL_STATE

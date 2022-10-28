@@ -12,7 +12,7 @@ const MyArticles = () => {
     return (
         <Grid container spacing={2}>
             {articles?.map(article => (
-                <Grid item xs={4} key={article.id} >
+                <Grid item xs={12} sm={6} md={4} key={article.id} >
                     <GlassCard sx={{ textAlign: 'left' }} key={article.title}>
                         <CardActionArea sx={{ display: "block" }} component={Link} to={`/${article.category}/${article.id}`}>
                             {article.image && (

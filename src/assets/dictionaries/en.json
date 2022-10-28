@@ -2,10 +2,46 @@
     "search": "Search",
     "categories": "Categories",
     "articles": "Articles",
+    "save": "Save",
     "noOptions": "No options",
+    "logoutIn": "Please, login again, logout in ",
+    "seconds": "seconds",
+    "auth": {
+        "emailVerified": "Email verified correctly",
+        "emailSended": "Confirm email sended",
+        "errors": {
+            "auth/too-many-requests": "Too many requests",
+            "auth/wrong-password": "Wrong password",
+            "auth/email-already-in-use": "Email already in use",
+            "auth/weak-password": "Weak Password"
+        }
+    },
     "profile": {
+        "sendConfirmationEmail": "email confirm",
         "myArticles": "My Articles",
-        "title": "Profile"
+        "resetPassword": "Change Password",
+        "password": "Current password",
+        "newPassword": "New password",
+        "confirmNewPassword": "Confirm new password",
+        "title": "Profile",
+        "username": "Username",
+        "informations": "Profile informations",
+        "success": "Info updated correctly!",
+        "errors": {
+            "displayName": {
+                "required": "Username required"
+            },
+            "password": {
+                "required": "Current password required"
+            },
+            "newPassword": {
+                "required": "New password required"
+            },
+            "confirmNewPassword": {
+                "required": "Confirm password required",
+                "mustBeEqualToNewPassword": "Must be equal to new password"
+            }
+        }
     },
     "login": {
         "title": "Login",
@@ -14,8 +50,6 @@
         "submit": "Login",
         "noAccount": "Do not have an account? Sign up",
         "errors": {
-            "auth/too-many-requests": "Too many requests",
-            "auth/wrong-password": "Wrong password",
             "email": "Email required",
             "isNotEmail": "Insert a valid email address",
             "password": "Password required"
@@ -30,7 +64,6 @@
         "alreadyRegistered": "Do you have an account? Sign in",
         "success": "Sign up complete!",
         "errors": {
-            "auth/email-already-in-use": "Email already in use",
             "email": "Email required",
             "isNotEmail": "Insert a valid email address",
             "password": "Password required",

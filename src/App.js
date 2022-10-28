@@ -28,7 +28,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc, setDoc } from 'firebase/firestore';
 import { db } from "./firebase";
 import { useSnackbar } from 'notistack';
-
+import GlassCard from './components/GlassCard';
 
 function App() {
   const [userChecked, setUserChecked] = useState(false);
@@ -159,14 +159,14 @@ function App() {
           overflowX: 'hidden'
         }}>
           <CssBaseline />
-          <AppBar position="fixed" sx={{ justifyContent: { sm: "center" } }} open={sidebarOpen || upMd}>
-            <Toolbar sx={{ zIndex: (theme) => theme.zIndex.drawer + 9999999 }}>
+          <AppBar position="fixed" sx={{ background: "transparent", justifyContent: { sm: "center" } }} open={sidebarOpen || upMd}>
+            <Toolbar component={GlassCard} sx={{ zIndex: (theme) => theme.zIndex.drawer + 9999999, borderRadius: 0 }}>
               <IconButton
                 color="inherit"
                 aria-label="open drawer"
                 onClick={sidebarOpen ? closeSidebar : openSidebar}
                 edge="start"
-                sx={{ mr: 2, display: { xs: 'block', md: 'none' }, }}
+                sx={{ mr: 2, display: { xs: 'block', md: 'none' } }}
               >
                 {sidebarOpen
                   ? <MenuOpen />
@@ -174,9 +174,9 @@ function App() {
                 }
               </IconButton>
               <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mr: 3, zIndex: -1 }}>
-                <Logo color="white" />
+                <Logo {...(dark && {color: "white"})} />
               </Box>
-              <Typography component={Link} to="/" color={"white"} variant="h6" noWrap sx={{ textDecoration: "unset" }} letterSpacing={5}>
+              <Typography component={Link} to="/" color={dark ? "white" : "primary"} variant="h6" noWrap sx={{ textDecoration: "unset" }} letterSpacing={5}>
                 {'WIKI ALL'}
               </Typography>
               <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>

@@ -101,12 +101,14 @@ const SidebarMenu = () => {
                             <ListItemButton 
                                 component={Link}
                                 to={'/profile'}
+                                selected={location.pathname.startsWith(`/profile`)}
                                 alignItems="center">
                                 <ListItemAvatar>
-                                    <Avatar referrerPolicy="no-referrer" imgProps={{ referrerPolicy: "no-referrer" }} src={user.providerData[0].photoURL} alt={user.email} />
+                                    <Avatar referrerPolicy="no-referrer" imgProps={{ referrerPolicy: "no-referrer" }} src={user.photoURL} alt={user.email} />
                                 </ListItemAvatar>
                                 <ListItemText
-                                    primary={dictionary["profile"]["title"]}
+                                    primary={user.displayName || dictionary["profile"]["title"]}
+                                    // primary={dictionary["profile"]["title"]}
                                 />
                             </ListItemButton>
                             <ListItemButton alignItems="center" onClick={() => logout(navigate)} >

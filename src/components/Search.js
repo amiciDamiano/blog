@@ -59,6 +59,7 @@ const Search = ({ dictionary, closeSidebar }) => {
                     variant="outlined"
                     // type="search"
                     size="small"
+                    type="search"
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

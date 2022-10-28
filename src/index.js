@@ -10,15 +10,15 @@ import "./index.css";
 ReactDOM.render(
   <React.StrictMode>
     <CssBaseline />
-    <SnackbarProvider maxSnack={3} anchorOrigin={{ horizontal: "right", vertical: "top" }}>
-      <AuthProvider>
-        <LanguageProvider>
+    <LanguageProvider>
+      <SnackbarProvider maxSnack={3} anchorOrigin={{ horizontal: "right", vertical: "top" }}>
+        <AuthProvider>
           <ThemeProvider>
             <App />
           </ThemeProvider>
-        </LanguageProvider>
-      </AuthProvider>
-    </SnackbarProvider>
+        </AuthProvider>
+      </SnackbarProvider>
+    </LanguageProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

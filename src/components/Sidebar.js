@@ -10,13 +10,14 @@ import Drawer from './Drawer';
 import AppBar from './AppBar';
 import { useDictionary } from '../hooks';
 import Search from './Search';
+import GlassCard from './GlassCard';
 
 const SidebarHeader = ({ open, closeSidebar }) => {
     const dictionary = useDictionary();
     return (
         <DrawerHeader>
-            <AppBar open={open} inDrawer sx={{ right: 'auto', width: 250 }}>
-                <Toolbar>
+            <AppBar open={open} inDrawer sx={{ borderRadius: 0, background: "transparent", right: 'auto', width: 250 }}>
+                <Toolbar component={GlassCard} sx={{ borderRadius: 0 }}>
                     <Search dictionary={dictionary} closeSidebar={closeSidebar} />
                 </Toolbar>
             </AppBar>
@@ -65,7 +66,7 @@ const Sidebar = ({ children }) => {
                     width: 250,
                     flexShrink: 0,
                     // maxHeight: '100vh',
-                    // backgroundColor: "transparent",
+                    backgroundColor: "transparent",
                     overflowY: 'auto',
                     // '& .MuiDrawer-paper': {
                     //     width: 250,

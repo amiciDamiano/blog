@@ -39,7 +39,7 @@ const Register = ({ inSidebar = false, inRegister = false, closeLogin = () => {}
         e.preventDefault();
         const error = await register({ email, password, confirmPassword });
         if (error) {
-            enqueueSnackbar(`${dictionary["register"]["errors"][error.code]}`, { variant: "error" });
+            enqueueSnackbar(`${dictionary["auth"]["errors"][error.code]}`, { variant: "error" });
         } else {
             enqueueSnackbar(`${dictionary["register"]["success"]}`, { variant: "success" });
             setOpen(false);
