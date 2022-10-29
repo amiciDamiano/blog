@@ -48,8 +48,9 @@ const SidebarMenu = () => {
             display: "flex",
             backgroundColor: "transparent",
             flex: 1,
+            borderRadius: 0,
             height: "-webkit-fill-available",
-            maxHeight: "calc(100% - 64px)",
+            maxHeight: "calc(100% - 56px)",
             flexDirection: "column",
             justifyContent: "space-between"
         }}>

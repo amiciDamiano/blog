@@ -202,7 +202,7 @@ function App() {
           </Sidebar>
           <Main open={sidebarOpen} sx={{ marginTop: theme.spacing(8), paddingInline: 0 }}>
             <Backdrop
-              sx={{ display: { md: "none" }, color: '#fff', zIndex: 1 }}
+              sx={{ display: { md: "none" }, color: '#fff', zIndex: 1, marginLeft: sidebarOpen && "250px", marginTop: "56px" }}
               open={sidebarOpen}
               onClick={closeSidebar}
             />
