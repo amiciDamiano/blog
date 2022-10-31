@@ -7,7 +7,7 @@
     "logoutIn": "Per favore riaccedere, logout in",
     "seconds": "secondi",
     "auth": {
-        "emailVerified": "Email verificata correttamente",
+        "emailVerified": "Email verificata",
         "emailSended": "Email di conferma inviata",
         "errors": {
             "auth/too-many-requests": "Troppe richieste",
