@@ -17,7 +17,7 @@ const MarkdownPaged = ({ pages, author, createDate, ...data }) => {
                     {pages.length > 1 && (
                         <Pagination count={pages.length} page={page} onChange={(e, value) => setPage(value)} />
                     )}
-                    <Typography>
+                    <Typography sx={{ display: { xs: "none" } }}>
                         {moment(fireDateToDate(createDate)).format("DD/MM/YYYY HH:mm")}
                     </Typography>
                 </Stack>

@@ -23,13 +23,13 @@ const Category = () => {
             <Stack spacing={2}>
                 {articles.map(article => (
                     <GlassCard sx={{ textAlign: 'left' }} key={article.title}>
-                        <CardActionArea sx={{ display: { xs: 'block', md: 'flex', lg: 'flex' } }} component={Link} to={`${article.id}`}>
+                        <CardActionArea sx={{ display: { xs: 'flex', md: 'flex' }, flexDirection: { xs: 'column', md: 'row' } }} component={Link} to={`${article.id}`}>
                             {article.image && (
                                 <CardMedia
                                     component="img"
                                     sx={{ 
-                                        maxWidth: { xs: 250, md: 250, lg: 250 },
-                                        maxHeight: 170
+                                        alignSelf: "center",
+                                        width: { xs: 250, md: 250, lg: 250 },
                                     }}
                                     image={article.image}
                                     src='img'
