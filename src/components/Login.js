@@ -15,7 +15,7 @@ import {
     useMediaQuery,
     Link,
 } from '@mui/material';
-import { Close, Login as LoginIcon } from '@mui/icons-material';
+import { CloseTwoTone, LoginTwoTone } from '@mui/icons-material';
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../contexts';
 import { useDictionary, useForm } from '../hooks';
@@ -65,7 +65,7 @@ const Login = ({ inRegister = false }) => {
             { !inRegister ? (
                 <ListItemButton onClick={() => setOpen(true)}>
                     <ListItemIcon>
-                        <LoginIcon />
+                        <LoginTwoTone />
                     </ListItemIcon>
                     <ListItemText primary={dictionary["login"]["title"]} />
                 </ListItemButton>
@@ -87,7 +87,7 @@ const Login = ({ inRegister = false }) => {
                             {dictionary["login"]["title"]}
                         </Typography>
                         <IconButton onClick={() => setOpen(false)}>
-                            <Close />
+                            <CloseTwoTone />
                         </IconButton>
                     </Toolbar>
                 </AppBar>

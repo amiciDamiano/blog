@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { ExpandLess, ExpandMore, Category, Folder, Logout } from '@mui/icons-material';
+import { ExpandLessTwoTone, ExpandMoreTwoTone, CategoryTwoTone, FolderTwoTone, LogoutTwoTone } from '@mui/icons-material';
 import {
     Avatar,
     Box,
@@ -32,11 +32,11 @@ const SidebarMenu = () => {
     const [categoriesOpen, setCategoriesOpen] = useState(true);
     const { state: { wave, dark }, toggleWave, toggleDarkMode } = useContext(ThemeContext);
     const { state: { user }, setUser, logout } = useContext(AuthContext);
-    
+
     useEffect(() => {
         const _user = JSON.parse(localStorage.getItem(STORE_USER));
         const _token = localStorage.getItem(STORE_TOKEN);
-        setUser(_user, _token); 
+        setUser(_user, _token);
     }, []);
 
     const toggleCategories = () => {
@@ -58,25 +58,25 @@ const SidebarMenu = () => {
                 <List >
                     <ListItemButton onClick={toggleCategories}>
                         <ListItemIcon>
-                            <Category />
+                            <CategoryTwoTone />
                         </ListItemIcon>
                         <ListItemText primary={dictionary["categories"]} />
-                        {categoriesOpen ? <ExpandLess /> : <ExpandMore />}
+                        {categoriesOpen ? <ExpandLessTwoTone /> : <ExpandMoreTwoTone />}
                     </ListItemButton>
                     <Collapse in={categoriesOpen}>
                         <List disablePadding>
                             {categories.map((category, index) => (
                                 <ListItemButton
-                                    color="secondary"
+                                color="secondary"
                                     component={Link}
                                     sx={{ mb: 1, pl: 4 }}
                                     to={`/${category.name}`}
                                     selected={location.pathname.startsWith(`/${category.name}`)}
                                     key={`${category.name}-${index}`}>
                                     <ListItemIcon>
-                                        <Folder htmlColor={location.pathname.startsWith(`/${category.name}`) ? category.color : ''} />
+                                        <FolderTwoTone htmlColor={location.pathname.startsWith(`/${encodeURI(category.name)}`) ? category.color : ''} />
                                     </ListItemIcon>
-                                    <ListItemText>{dictionary[category.name].title}</ListItemText>
+                                    <ListItemText>{dictionary[category.name]?.title || category.name}</ListItemText>
                                 </ListItemButton>
                             ))}
                         </List>
@@ -87,8 +87,8 @@ const SidebarMenu = () => {
             <Box sx={{ justifySelf: "flex-end" }}>
                 <List>
                     <ListItem>
-                        <WaveSwitch 
-                            checked={wave} 
+                        <WaveSwitch
+                            checked={wave}
                             onChange={toggleWave}
                         />
                         <ColorModeSwitch checked={dark} onChange={toggleDarkMode} />
@@ -99,7 +99,7 @@ const SidebarMenu = () => {
                             <Register inSidebar />
                         </React.Fragment>
                         : <React.Fragment>
-                            <ListItemButton 
+                            <ListItemButton
                                 component={Link}
                                 to={'/profile'}
                                 selected={location.pathname.startsWith(`/profile`)}
@@ -109,12 +109,12 @@ const SidebarMenu = () => {
                                 </ListItemAvatar>
                                 <ListItemText
                                     primary={user.displayName || dictionary["profile"]["title"]}
-                                    // primary={dictionary["profile"]["title"]}
+                                // primary={dictionary["profile"]["title"]}
                                 />
                             </ListItemButton>
                             <ListItemButton alignItems="center" onClick={() => logout(navigate)} >
                                 <ListItemIcon sx={{ justifyContent: "center" }}>
-                                    <Logout />
+                                    <LogoutTwoTone />
                                 </ListItemIcon>
                                 <ListItemText
                                     primary="Logout"

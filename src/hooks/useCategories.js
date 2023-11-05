@@ -1,9 +1,8 @@
 import { onSnapshot, collection } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { db } from "../firebase";
-import { getDownloadURL, ref, getStorage } from 'firebase/storage';
+import { db, storage } from "../firebase";
+import { getDownloadURL, ref } from 'firebase/storage';
 
-const storage = getStorage();
 const useCategories = () => {
 
     const [ categories, setCategories ] = useState([]);

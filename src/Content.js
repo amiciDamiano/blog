@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AuthContext } from './contexts';
-import { Categories, Article, NotFound, Category, Profile } from './pages';
+import { Categories, Article, NotFound, Category, Profile, CreateArticle } from './pages';
 
 const Content = () => {
     
@@ -11,7 +11,10 @@ const Content = () => {
         <Routes>
             {
                 user && (
-                    <Route path='/profile' element={<Profile />} />
+                    <React.Fragment>
+                        <Route path='/profile' element={<Profile />} />
+                        <Route path='/profile/article' element={<CreateArticle />} />
+                    </React.Fragment>
                 )
             }
             <Route path='*/404' element={<NotFound />} />

@@ -1,4 +1,4 @@
-import { Close, AppRegistration } from '@mui/icons-material';
+import { CloseTwoTone, AppRegistrationTwoTone } from '@mui/icons-material';
 import { AppBar, Button, Dialog, DialogContent, Grid, IconButton, Link, ListItemButton, ListItemIcon, ListItemText, Stack, TextField, Toolbar, Typography, useMediaQuery } from '@mui/material';
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../contexts';
@@ -51,7 +51,7 @@ const Register = ({ inSidebar = false, inRegister = false, closeLogin = () => {}
             {inSidebar ? (
                 <ListItemButton onClick={() => setOpen(true)}>
                     <ListItemIcon>
-                        <AppRegistration />
+                        <AppRegistrationTwoTone />
                     </ListItemIcon>
                     <ListItemText primary={dictionary["register"]["title"]} />
                 </ListItemButton>
@@ -75,7 +75,7 @@ const Register = ({ inSidebar = false, inRegister = false, closeLogin = () => {}
                             {dictionary["register"]["title"]}
                         </Typography>
                         <IconButton onClick={() => setOpen(false)}>
-                            <Close />
+                            <CloseTwoTone />
                         </IconButton>
                     </Toolbar>
                 </AppBar>

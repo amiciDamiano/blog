@@ -3,11 +3,11 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import GlassCard from './GlassCard';
 import { Avatar, Grid, TextField, Stack, IconButton, Box, Button } from '@mui/material';
 import { AuthContext } from '../contexts';
-import { Check, Delete, Loop, PhotoCamera, Send, Undo } from '@mui/icons-material';
+import { CheckTwoTone, DeleteTwoTone, LoopTwoTone, PhotoCameraTwoTone, SaveTwoTone, SendTwoTone, UndoTwoTone } from '@mui/icons-material';
 import { useDictionary, useForm } from '../hooks';
 import { isRequired } from '../hooks/useForm';
 import { useSnackbar } from 'notistack';
-import { getAuth } from 'firebase/auth';
+import { authentication } from '../firebase';
 
 const ProfileInformations = () => {
 
@@ -30,17 +30,16 @@ const ProfileInformations = () => {
         photoURL: user.photoURL,
         email: user.email
     }, validations);
-    
+
     useEffect(() => {
         let checkForVerifiedInterval;
-        if(!user.emailVerified && emailSended) {
-            const auth = getAuth();
+        if (!user.emailVerified && emailSended) {
             checkForVerifiedInterval = setInterval(() => {
-                auth.currentUser.reload();
-                if(auth.currentUser.emailVerified) {
+                authentication.currentUser.reload();
+                if (authentication.currentUser.emailVerified) {
                     enqueueSnackbar(dictionary["auth"]["emailVerified"], { variant: "success" });
-                    const token = auth.currentUser.refreshToken;
-                    setUser({...auth.currentUser }, token);
+                    const token = authentication.currentUser.refreshToken;
+                    setUser({ ...authentication.currentUser }, token);
                     clearInterval(checkForVerifiedInterval);
                 }
             }, 1000);
@@ -50,27 +49,27 @@ const ProfileInformations = () => {
 
     const sendEmail = async () => {
         const error = await sendEmailConfirm();
-        if(error) {
+        if (error) {
             enqueueSnackbar(dictionary["auth"]["errors"][error.code], { variant: "error" });
         } else {
             enqueueSnackbar(dictionary["auth"]["emailSended"], { variant: "success" })
             setEmailSended(true);
         }
     };
-    const saveEdit = async () => {    
+    const saveEdit = async () => {
         const currentPhotoUrl = await changeProfile({
             ...profileInfo,
-            currentPhoto: user.photoURL, 
-            filename: fileRef.current.files[0]?.name, 
-            userId: user.uid 
+            currentPhoto: user.photoURL,
+            filename: fileRef.current.files[0]?.name,
+            userId: user.uid
         });
-        if(typeof currentPhotoUrl === "object") {
+        if (typeof currentPhotoUrl === "object") {
             // in case of errors
-            enqueueSnackbar(dictionary["auth"]["errors"][currentPhotoUrl.code], { variant: "error"} )
+            enqueueSnackbar(dictionary["auth"]["errors"][currentPhotoUrl.code], { variant: "error" })
             console.error(currentPhotoUrl);
         } else {
             changeHandler("photoURL", currentPhotoUrl);
-            enqueueSnackbar(dictionary["profile"]["success"], { variant: "success"} )
+            enqueueSnackbar(dictionary["profile"]["success"], { variant: "success" })
         }
     };
     const resetPicture = () => {
@@ -85,7 +84,7 @@ const ProfileInformations = () => {
     };
 
     return (
-        <Stack direction={{xs: "column", sm: "row"}} spacing={2} sx={{ mt: _ => _.spacing(2) }}>
+        <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mt: _ => _.spacing(2) }}>
             <Box
                 sx={{ flex: 1, maxWidth: 300, height: "auto", position: "relative" }}
             >
@@ -104,7 +103,7 @@ const ProfileInformations = () => {
                                 }}
                                 onClick={resetPicture}
                             >
-                                <Undo />
+                                <UndoTwoTone />
                             </IconButton>
                         )
                     }
@@ -117,7 +116,7 @@ const ProfileInformations = () => {
                                 }}
                                 onClick={deleteTempPhoto}
                             >
-                                <Delete />
+                                <DeleteTwoTone />
                             </IconButton>
                         )
                     }
@@ -130,7 +129,7 @@ const ProfileInformations = () => {
                         component="label"
                     >
                         <input ref={fileRef} hidden accept="image/*" type="file" onChange={changePicture} />
-                        {!profileInfo.photoURL ? <PhotoCamera /> : <Loop />}
+                        {!profileInfo.photoURL ? <PhotoCameraTwoTone /> : <LoopTwoTone />}
                     </IconButton>
                 </Stack>
                 <Avatar
@@ -142,7 +141,7 @@ const ProfileInformations = () => {
                 />
             </Box>
             <Box
-                sx={{ flex: {xs: 1, md: 2} }}
+                sx={{ flex: { xs: 1, md: 2 } }}
             >
                 <Grid container spacing={2}>
                     <Grid item xs={12} md={6}>
@@ -165,29 +164,30 @@ const ProfileInformations = () => {
                             value={profileInfo.displayName || ""}
                         />
                     </Grid>
-                    {/* <Grid item xs={12} md={6}>
-                    </Grid> */}
                     <Grid item xs={12}>
-                        <Stack direction="row" justifyContent="space-between">
-                        <Button
-                            variant={"contained"}
-                            disableRipple={user.emailVerified}
-                            sx={{ 
-                                pointerEvents: user.emailVerified && "none", 
-                                cursor: user.emailVerified && "default" 
-                            }}
-                            color={user.emailVerified ? "success" : "error"}
-                            startIcon={user.emailVerified ? <Check /> : <Send />}
-                            onClick={user.emailVerified ? null : sendEmail}
-                        >
-                            {user.emailVerified ? dictionary["auth"]["emailVerified"] : dictionary["profile"]["sendConfirmationEmail"]}
-                        </Button>
-                            <Button 
+                        <Stack direction="row" justifyContent="space-between" spacing={2}>
+                            <Button
+                                variant={"contained"}
+                                size="small"
+                                disableRipple={user.emailVerified}
+                                sx={{
+                                    pointerEvents: user.emailVerified && "none",
+                                    cursor: user.emailVerified && "default"
+                                }}
+                                color={user.emailVerified ? "success" : "error"}
+                                startIcon={user.emailVerified ? <CheckTwoTone /> : <SendTwoTone />}
+                                onClick={user.emailVerified ? null : sendEmail}
+                            >
+                                {user.emailVerified ? dictionary["auth"]["emailVerified"] : dictionary["profile"]["sendConfirmationEmail"]}
+                            </Button>
+                            <Button
+                                size="small"
                                 variant="contained"
+                                startIcon={<SaveTwoTone />}
                                 disabled={!isValid}
                                 onClick={saveEdit}
                             >
-                                    {dictionary["save"]}
+                                {dictionary["save"]}
                             </Button>
                         </Stack>
                     </Grid>

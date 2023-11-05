@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { Stack, TextField, Button, Box } from '@mui/material';
 import { useDictionary, useForm } from '../hooks';
-import { getAuth, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
 import { isRequired, isSame } from '../hooks/useForm';
 import { useSnackbar } from 'notistack';
 import TimeoutAndRedirect from './TimeoutAndRedirect';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../contexts';
+import { authentication } from '../firebase';
 
 const ProfileResetPassword = () => {
 
@@ -33,8 +34,7 @@ const ProfileResetPassword = () => {
     }, validations);
 
     const changePassword = async () => {
-        const auth = getAuth();
-        const user = auth.currentUser;
+        const user = authentication.currentUser;
         try {
             const credentials = EmailAuthProvider.credential(user.email, password);
             await reauthenticateWithCredential(user, credentials);
@@ -50,6 +50,7 @@ const ProfileResetPassword = () => {
         <Button
             variant="contained"
             disabled={!isValid}
+            sx={{ height: 39.98 }}
             onClick={changePassword}
         >
             {dictionary["save"]}
@@ -92,7 +93,7 @@ const ProfileResetPassword = () => {
                     value={confirmNewPassword || ""}
                     onChange={({ target }) => changeHandler("confirmNewPassword", target.value)}
                 />
-                <Box display={{ xs: "none", sm: "flex" }} justifyContent={"flex-start"}>
+                <Box display={{ xs: "none", sm: "flex" }} justifyContent={"flex-start"} alignItems="start">
                     <SaveButton />
                 </Box>
                 <Stack direction="row" flex={1} justifyContent={"end"} display={{ xs: "flex", sm: "none" }} spacing={2}>

@@ -13,20 +13,21 @@ import {
   MenuItem,
   Menu as MUIMenu,
   useMediaQuery,
+  Stack,
 } from '@mui/material';
 import { Logo } from "./assets/logo";
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { ThemeContext, LanguageContext, AuthContext } from './contexts';
 import Main from './components/Main';
 import AppBar from './components/AppBar';
-import { Menu, MenuOpen } from '@mui/icons-material';
+import { MenuTwoTone, MenuOpenTwoTone } from '@mui/icons-material';
 import Content from './Content';
 import SidebarMenu from './components/SidebarMenu';
-import { BrowserRouter, Link, HashRouter, Router, Route } from 'react-router-dom';
+import { Link, HashRouter } from 'react-router-dom';
 import { STORE_LANGUAGE_PREFERENCE, STORE_THEME_PREFERENCE, STORE_WAVE_PREFERENCE } from './utilities';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { getDoc, doc, setDoc } from 'firebase/firestore';
-import { db } from "./firebase";
+import { db, authentication } from "./firebase";
 import { useSnackbar } from 'notistack';
 import GlassCard from './components/GlassCard';
 
@@ -48,10 +49,10 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const authentication = getAuth();
     onAuthStateChanged(authentication, async user => {
       const token = user?.refreshToken;
       setUserChecked(true)
+      console.log(user)
       setUser(user, token);
       if (user && token) {
         const emailVerified = user?.emailVerified;
@@ -117,6 +118,9 @@ function App() {
         },
         palette: {
           mode: dark ? 'dark' : 'light',
+          background: {
+            default: dark ? "#121212" : "#e5e5e5"
+          },
           // primary: {
           //   main: '#fdd835',
           //   light: '#fddf5d',
@@ -156,45 +160,46 @@ function App() {
         }
         <Box sx={{
           display: 'flex',
-          overflowX: 'hidden'
+          overflowX: 'hidden',
         }}>
           <CssBaseline />
           <AppBar position="fixed" sx={{ background: "transparent", justifyContent: { sm: "center" } }} open={sidebarOpen || upMd}>
             <Toolbar component={GlassCard} sx={{ zIndex: (theme) => theme.zIndex.drawer + 9999999, borderRadius: 0 }}>
-              <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={sidebarOpen ? closeSidebar : openSidebar}
-                edge="start"
-                sx={{ mr: 2, display: { xs: 'block', md: 'none' } }}
-              >
-                {sidebarOpen
-                  ? <MenuOpen />
-                  : <Menu />
-                }
-              </IconButton>
-              <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mr: 3, zIndex: -1 }}>
-                <Logo {...(dark && { color: "white" })} />
-              </Box>
-              <Typography component={Link} to="/" color={dark ? "white" : "primary"} variant="h6" noWrap sx={{ textDecoration: "unset" }} letterSpacing={5}>
-                {'WIKI ALL'}
-              </Typography>
-              <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
-                <Button style={{ justifySelf: 'flex-end' }} id="language-menu" color='inherit' onClick={openMenu}>{languageAbbr}</Button>
-                <MUIMenu
-                  id="language-menu"
-                  anchorEl={document.getElementById("language-menu")}
-                  open={menuOpened}
-                  onClose={closeMenu}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
+              <Stack direction="row" flex={1} spacing={2} alignItems="center" justifyContent="space-between" >
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  onClick={sidebarOpen ? closeSidebar : openSidebar}
+                  sx={{ display: { xs: 'block', md: 'none' } }}
                 >
-                  {Object.entries(languages).map(([key, value]) => (
-                    <MenuItem key={key} onClick={() => onChangeLanguage(key)}>{value.label}</MenuItem>
-                  ))}
-                </MUIMenu>
-              </Box>
+                  {sidebarOpen
+                    ? <MenuOpenTwoTone />
+                    : <MenuTwoTone />
+                  }
+                </IconButton>
+                <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", mr: 3, zIndex: -1 }}>
+                  <Logo {...(dark && { color: "white" })} />
+                </Box>
+                <Typography component={Link} to="/" color={dark ? "white" : "primary"} variant="h6" noWrap sx={{ textDecoration: "unset" }} letterSpacing={5}>
+                  {'WIKI ALL'}
+                </Typography>
+                <Box sx={{ flex: 1, display: 'flex', justifyContent: 'flex-end' }}>
+                  <Button style={{ justifySelf: 'flex-end' }} id="language-menu" color='inherit' onClick={openMenu}>{languageAbbr}</Button>
+                  <MUIMenu
+                    id="language-menu"
+                    anchorEl={document.getElementById("language-menu")}
+                    open={menuOpened}
+                    onClose={closeMenu}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                  >
+                    {Object.entries(languages).map(([key, value]) => (
+                      <MenuItem key={key} onClick={() => onChangeLanguage(key)}>{value.label}</MenuItem>
+                    ))}
+                  </MUIMenu>
+                </Box>
+              </Stack>
             </Toolbar>
           </AppBar>
           <Sidebar>

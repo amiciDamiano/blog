@@ -1,4 +1,5 @@
 {
+    "add": "Aggiungi",
     "search": "Cerca",
     "categories": "Categorie",
     "articles": "Articoli",
@@ -6,6 +7,41 @@
     "noOptions": "Nessun risultato",
     "logoutIn": "Per favore riaccedere, logout in",
     "seconds": "secondi",
+    "confirm": "Conferma",
+    "cancel": "Annulla",
+    "attention": "Attenzione!",
+    "are_you_sure": "Sei sicuro di voler procedere?",
+    "category": {
+        "insert_category": "Inserisci i dati per la categoria \"$0\"",
+        "success": "Categoria inserita correttamente",
+        "insert_color": "Colore",
+        "insert_name": "Nome",
+        "errors": {
+            "name_required": "Nome obbligatorio",
+            "color_required": "Colore obbligatorio",
+            "photo_required": "Icona obbligatoria"
+        }
+    },
+    "article": {
+        "insert_success": "Articolo creato correttamente!",
+        "insert_tag": "Inserisci tag",
+        "insert_description": "Descrizione",
+        "insert_data": "Inserisci gli ultimi dati e conferma!",
+        "add_page": "Aggiungi pagina",
+        "del_page": "Elimina pagina",
+        "save": "Salva articolo!",
+        "new_page": "Hai aggiunto una nuova pagina!!",
+        "create": "Crea un nuovo articolo!",
+        "text": "testo",
+        "paragraph": "paragrafo",
+        "table": "| Mese    | Risparmio |\n| -------- | ------- |\n| Gennaio  | €250    |\n| Febbario | €80     |\n| Marzo    | €420    |",
+        "insert_title": "Titolo",
+        "insert_category": "Categoria",
+        "errors": {
+            "title_required": "Titolo obbligatorio",
+            "category_requried": "Categoria obbligatorio"
+        }
+    },
     "auth": {
         "emailVerified": "Email verificata",
         "emailSended": "Email di conferma inviata",
@@ -75,14 +111,6 @@
         "title": "Pagina non trovata",
         "description": "Ooops sembra come tu ti sia perso!",
         "goHome": "torna alla home"
-    },
-    "python": {
-        "title": "Python",
-        "description": "Python è un linguaggio di programmazione di più 'alto livello' rispetto alla maggior parte degli altri linguaggi, orientato a oggetti, adatto a sviluppare applicazioni distribuite, scripting, computazione numerica e system testing."
-    },
-    "node": {
-        "title": "Node JS",
-        "description": "Node.js è un runtime system open source multipiattaforma orientato agli eventi per l'esecuzione di codice JavaScript, costruita sul motore JavaScript V8 di Google Chrome."
     },
     "goToArticles": "Vai agli articoli"
 }

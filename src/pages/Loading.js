@@ -1,4 +1,4 @@
-import { Close } from '@mui/icons-material'
+import { CloseTwoTone } from '@mui/icons-material'
 import { Backdrop, IconButton } from '@mui/material'
 import React, { useState } from 'react'
 
@@ -13,9 +13,9 @@ const Loading = () => {
   return (<>
     <Backdrop open sx={{ display, zIndex: 99999999 }}>
       <IconButton onClick={handleCloseLoading} size="small" sx={{ position: "fixed", top: 20, right: 20 }}>
-        <Close fontSize="small" />
+        <CloseTwoTone fontSize="small" />
       </IconButton>
-      <img src={require('../assets/images/loader.gif')} />
+      <img alt="..." src={require('../assets/images/loader.gif')} />
     </Backdrop>
   </>
   )

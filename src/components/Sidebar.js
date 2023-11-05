@@ -1,8 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import {
     SwipeableDrawer,
     Paper,
     Toolbar,
+    useMediaQuery,
+    useTheme,
 } from '@mui/material';
 import { ThemeContext } from '../contexts';
 import { styled } from '@mui/material/styles';
@@ -34,7 +36,16 @@ const Sidebar = ({ children }) => {
         closeSidebar,
         openSidebar
     } = useContext(ThemeContext);
-
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up('md'));
+    
+    useEffect(() => {
+        if(matches) {
+            closeSidebar();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [matches]);
+    
     return (
         <>
             <SwipeableDrawer
@@ -65,13 +76,8 @@ const Sidebar = ({ children }) => {
                 sx={{
                     width: 250,
                     flexShrink: 0,
-                    // maxHeight: '100vh',
                     backgroundColor: "transparent",
                     overflowY: 'auto',
-                    // '& .MuiDrawer-paper': {
-                    //     width: 250,
-                    //     boxSizing: 'border-box',
-                    // },
                     zIndex: theme => theme.zIndex.drawer + 2,
                     display: { xs: 'block', md: 'none' },
                 }}

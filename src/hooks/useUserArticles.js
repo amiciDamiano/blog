@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import { onSnapshot, collection } from "firebase/firestore";
-import { getDownloadURL, getStorage, ref } from 'firebase/storage';
-
-const storage = getStorage();
+import { getDownloadURL, ref } from 'firebase/storage';
 
 const useUserArticles = (user) => {
 

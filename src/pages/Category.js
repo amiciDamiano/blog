@@ -4,6 +4,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Loading from './Loading';
 import GlassCard from '../components/GlassCard';
 import { useCategoryArticles, useDictionary, useTranslatedTitle } from '../hooks';
+import Lottie from 'lottie-react';
+import { LottieNoData } from '../assets/lotties';
 
 const Category = () => {
     const { category } = useParams();
@@ -16,8 +18,8 @@ const Category = () => {
 
     return (
         <Box component={Container} sx={{ textAlign: 'center' }}>
-            <Typography sx={{ mb: theme => theme.spacing(2) }} variant="h2" >{dictionary[category]?.title}</Typography>
-            {articles.length <= 0 && <Loading />}
+            <Typography sx={{ mb: theme => theme.spacing(2) }} variant="h2" >{dictionary[category]?.title || category}</Typography>
+            {articles.length <= 0 && <Lottie loop style={{ height: "calc(100vh - 72px - 24px - 24px - 64px - 16px)" }} animationData={LottieNoData} />}
             <Stack spacing={2}>
                 {articles.map(article => (
                     <GlassCard sx={{ textAlign: 'left' }} key={article.title}>
@@ -25,7 +27,10 @@ const Category = () => {
                             {article.image && (
                                 <CardMedia
                                     component="img"
-                                    sx={{ width: { xs: 250, md: 250, lg: 250 } }}
+                                    sx={{ 
+                                        maxWidth: { xs: 250, md: 250, lg: 250 },
+                                        maxHeight: 170
+                                    }}
                                     image={article.image}
                                     src='img'
                                     alt={article.title}

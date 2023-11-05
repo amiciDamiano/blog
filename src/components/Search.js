@@ -47,6 +47,7 @@ const Search = ({ dictionary, closeSidebar }) => {
                     {option.title}
                 </ListItemButton>
             }}
+            isOptionEqualToValue={(option, value) => option.path === value.path}
             groupBy={option => option.category}
             getOptionLabel={option => option.category || ''}
             filterOptions={(x) => x}

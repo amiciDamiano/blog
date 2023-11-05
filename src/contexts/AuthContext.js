@@ -2,7 +2,6 @@ import createContext from './createDataContext';
 import {
     createUserWithEmailAndPassword,
     sendEmailVerification,
-    getAuth,
     signInWithEmailAndPassword,
     signOut,
     GoogleAuthProvider,
@@ -10,7 +9,9 @@ import {
     updateProfile,
 } from 'firebase/auth';
 import { STORE_TOKEN, STORE_USER } from '../utilities';
-import { getDownloadURL, ref, getStorage, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { storage, authentication, db } from '../firebase';
+import { doc, updateDoc } from 'firebase/firestore';
 
 const SET_USER = "set_user";
 
@@ -35,7 +36,6 @@ const reducer = (state, action) => {
 
 const login = dispatch => async ({ email, password }) => {
     try {
-        const authentication = getAuth();
         await signInWithEmailAndPassword(authentication, email, password);
     } catch (e) {
         return e;
@@ -45,7 +45,6 @@ const login = dispatch => async ({ email, password }) => {
 const googleLogin = dispatch => async () => {
     try {
         const googleProvider = new GoogleAuthProvider();
-        const authentication = getAuth();
         await signInWithPopup(authentication, googleProvider);
     } catch (e) {
         return e;
@@ -53,7 +52,6 @@ const googleLogin = dispatch => async () => {
 };
 
 const sendEmailConfirm = dispatch => async () => {
-    const authentication = getAuth();
     const user = authentication.currentUser;
     try {
         await sendEmailVerification(user);
@@ -63,8 +61,6 @@ const sendEmailConfirm = dispatch => async () => {
 
 };
 const changeProfile = dispatch => async ({ displayName, photoURL, currentPhoto, userId, filename }) => {
-    const authentication = getAuth();
-    const storage = getStorage();
     const user = authentication.currentUser;
     try {
         if (photoURL && (photoURL !== currentPhoto)) {
@@ -75,7 +71,13 @@ const changeProfile = dispatch => async ({ displayName, photoURL, currentPhoto, 
         } else if(!photoURL) {
             photoURL = "";
         }
-        await updateProfile(user, { displayName, photoURL });
+        await Promise.all([
+            updateProfile(user, { displayName, photoURL }),
+            updateDoc(doc(db, "users", userId), {
+                username: displayName,
+                image: filename
+            })
+        ]);
         user.reload();
         const token = user.refreshToken;
         dispatch({ type: SET_USER, payload: { user: {...user}, token } });
@@ -88,7 +90,6 @@ const changeProfile = dispatch => async ({ displayName, photoURL, currentPhoto, 
 const register = dispatch => async ({ email, password, confirmPassword }) => {
     if (password === confirmPassword) {
         try {
-            const authentication = getAuth();
             const result = await createUserWithEmailAndPassword(authentication, email, password);
             await sendEmailVerification(result.user);
         } catch (e) {
@@ -98,7 +99,6 @@ const register = dispatch => async ({ email, password, confirmPassword }) => {
 };
 
 const logout = dispatch => async navigate => {
-    const authentication = getAuth();
     signOut(authentication);
     dispatch({ type: SET_USER, payload: { user: null, token: "" } });
     navigate("/");
